@@ -23,7 +23,7 @@
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Meteor Rejects","applicationCategory":"GameApplication","operatingSystem":"Windows, macOS, Linux","description":"A free open-source addon for Meteor Client restoring 58+ rejected and removed Minecraft modules. Supports 1.21.0, 1.21.4, 1.21.11.","url":"https://meteorejects.github.io/","author":{"@type":"Person","name":"AntiCope","url":"https://github.com/AntiCope"},"license":"https://opensource.org/licenses/MIT","softwareVersion":"1.21.11","downloadUrl":"https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/meteor-rejects-addon-1.21.11.jar","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Meteor Rejects?","acceptedAnswer":{"@type":"Answer","text":"Meteor Rejects is a free open-source addon for Meteor Client that restores rejected pull requests, removed modules, and features ported from Wurst, BleachHack, LiquidBounce, and other clients. It adds 58+ modules and 14+ commands."}},{"@type":"Question","name":"How do I install Meteor Rejects?","acceptedAnswer":{"@type":"Answer","text":"Install Meteor Client, then drop the Meteor Rejects .jar into .minecraft/mods and launch with Fabric Loader 0.15+."}},{"@type":"Question","name":"Which Minecraft versions does Meteor Rejects support?","acceptedAnswer":{"@type":"Answer","text":"Meteor Rejects supports Minecraft Java Edition 1.21.0, 1.21.4, and 1.21.11 with separate downloads for each."}},{"@type":"Question","name":"Is Meteor Rejects free?","acceptedAnswer":{"@type":"Answer","text":"Yes, fully free and MIT licensed. Source on GitHub at github.com/AntiCope/meteor-rejects."}},{"@type":"Question","name":"What is the difference between Meteor Client and Meteor Rejects?","acceptedAnswer":{"@type":"Answer","text":"Meteor Client is the base client mod. Meteor Rejects is an addon that extends it with features that were removed, rejected, or never officially included."}},{"@type":"Question","name":"What Fabric Loader version is required?","acceptedAnswer":{"@type":"Answer","text":"Fabric Loader 0.15 or newer is required alongside a Meteor Client dev build."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Meteor Rejects and what does it do?","acceptedAnswer":{"@type":"Answer","text":"Meteor Rejects is a free open-source addon for Meteor Client that restores rejected pull requests, removed modules, and features ported from Wurst, BleachHack, LiquidBounce, JexClient, and other clients. It adds 58+ modules and 14+ commands unavailable in the base Meteor Client."}},{"@type":"Question","name":"How do I install Meteor Rejects?","acceptedAnswer":{"@type":"Answer","text":"First install Meteor Client, then download the Meteor Rejects .jar for your Minecraft version. Drop it into your .minecraft/mods folder and launch with Fabric Loader 0.15+. All new modules and commands appear automatically in the Meteor Client interface."}},{"@type":"Question","name":"Which Minecraft versions does Meteor Rejects support?","acceptedAnswer":{"@type":"Answer","text":"Meteor Rejects supports Minecraft Java Edition 1.21.0, 1.21.4, and 1.21.11 — with a separate .jar for each. Bedrock Edition is not supported. Always download the version that matches your Minecraft install."}},{"@type":"Question","name":"Is Meteor Rejects completely free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Meteor Rejects is fully free and MIT licensed. The complete source code is on GitHub at github.com/AntiCope/meteor-rejects for anyone to review, fork, or contribute to. There are no premium tiers, paywalls, or ads."}},{"@type":"Question","name":"What's the difference between Meteor Client and Meteor Rejects?","acceptedAnswer":{"@type":"Answer","text":"Meteor Client is the base mod — it must be installed first. Meteor Rejects is an addon that extends it. Meteor Client focuses on well-curated features while Meteor Rejects specifically collects everything that was removed, rejected, or never officially included. They are fully compatible and work together seamlessly."}},{"@type":"Question","name":"Does it conflict with other Meteor addons?","acceptedAnswer":{"@type":"Answer","text":"Meteor Rejects includes a built-in Duplicate Module Names option to prevent naming conflicts with other addons. In general it is compatible with most Meteor addons — just ensure all addons target the same Minecraft and Meteor Client version."}},{"@type":"Question","name":"What Fabric Loader version is required?","acceptedAnswer":{"@type":"Answer","text":"Fabric Loader 0.15 or newer is required alongside a Meteor Client dev build. Download the latest version from fabricmc.net. If Meteor Client is already working on your setup, your Fabric Loader version is almost certainly compatible."}},{"@type":"Question","name":"How do I report bugs or request features?","acceptedAnswer":{"@type":"Answer","text":"Open an issue on GitHub at github.com/AntiCope/meteor-rejects/issues. Include your Minecraft version, Meteor Client version, and steps to reproduce when filing a bug report. Feature requests are also welcome via the Issues tab."}},{"@type":"Question","name":"Can I contribute to Meteor Rejects?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. Fork the repo on GitHub, make your changes, and open a pull request. The project welcomes ports from other clients, restorations of removed Meteor features, and bug fixes for existing modules. See the contributing guide in the repository for details."}}]}</script>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://meteorejects.github.io/"},{"@type":"ListItem","position":2,"name":"Modules","item":"https://meteorejects.github.io/#modules"},{"@type":"ListItem","position":3,"name":"Commands","item":"https://meteorejects.github.io/#commands"},{"@type":"ListItem","position":4,"name":"Download","item":"https://meteorejects.github.io/#download"},{"@type":"ListItem","position":5,"name":"FAQ","item":"https://meteorejects.github.io/#faq"}]}</script>
 
@@ -609,6 +609,7 @@ code{background:rgba(192,25,46,.15);color:var(--r3);padding:1px 6px;border-radiu
   text-decoration:none;
   box-shadow:0 8px 32px rgba(192,25,46,.5);
   transition:transform .2s,box-shadow .2s,filter .2s;
+  position:relative;overflow:hidden;
 }
 #download-btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(192,25,46,.7);filter:brightness(1.1)}
 #download-btn::after{
@@ -1017,95 +1018,95 @@ footer{
       <p class="sec-sub">Everything you need to know before installing.</p>
     </div>
 
-    <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
+    <div class="faq-list">
 
-      <div class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <div class="faq-item reveal">
         <button class="faq-q" aria-expanded="false">
-          <span itemprop="name">What is Meteor Rejects and what does it do?</span>
+          <span>What is Meteor Rejects and what does it do?</span>
           <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
         </button>
-        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">Meteor Rejects is a free, open-source addon for Meteor Client that restores features which were rejected in pull requests, removed from the main codebase, or ported from clients like Wurst, BleachHack, LiquidBounce, and JexClient. It adds 58+ modules and 14+ commands unavailable in the base Meteor Client.</p>
+        <div class="faq-body">
+          <p>Meteor Rejects is a free, open-source addon for Meteor Client that restores features which were rejected in pull requests, removed from the main codebase, or ported from clients like Wurst, BleachHack, LiquidBounce, and JexClient. It adds 58+ modules and 14+ commands unavailable in the base Meteor Client.</p>
         </div>
       </div>
 
-      <div class="faq-item reveal delay-1" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <div class="faq-item reveal delay-1">
         <button class="faq-q" aria-expanded="false">
-          <span itemprop="name">How do I install Meteor Rejects?</span>
+          <span>How do I install Meteor Rejects?</span>
           <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
         </button>
-        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">First install Meteor Client, then download the Meteor Rejects .jar for your Minecraft version. Drop it into your .minecraft/mods folder and launch with Fabric Loader 0.15+. All new modules and commands appear automatically in the Meteor Client interface.</p>
+        <div class="faq-body">
+          <p>First install Meteor Client, then download the Meteor Rejects .jar for your Minecraft version. Drop it into your .minecraft/mods folder and launch with Fabric Loader 0.15+. All new modules and commands appear automatically in the Meteor Client interface.</p>
         </div>
       </div>
 
-      <div class="faq-item reveal delay-2" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <div class="faq-item reveal delay-2">
         <button class="faq-q" aria-expanded="false">
-          <span itemprop="name">Which Minecraft versions are supported?</span>
+          <span>Which Minecraft versions are supported?</span>
           <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
         </button>
-        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">Meteor Rejects supports Minecraft Java Edition 1.21.0, 1.21.4, and 1.21.11 — with a separate .jar for each. Bedrock Edition is not supported. Always download the version that matches your Minecraft install.</p>
+        <div class="faq-body">
+          <p>Meteor Rejects supports Minecraft Java Edition 1.21.0, 1.21.4, and 1.21.11 — with a separate .jar for each. Bedrock Edition is not supported. Always download the version that matches your Minecraft install.</p>
         </div>
       </div>
 
-      <div class="faq-item reveal delay-3" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <div class="faq-item reveal delay-3">
         <button class="faq-q" aria-expanded="false">
-          <span itemprop="name">Is Meteor Rejects completely free?</span>
+          <span>Is Meteor Rejects completely free?</span>
           <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
         </button>
-        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">Yes. Meteor Rejects is fully free and MIT licensed. The complete source code is on GitHub at github.com/AntiCope/meteor-rejects for anyone to review, fork, or contribute to. There are no premium tiers, paywalls, or ads.</p>
+        <div class="faq-body">
+          <p>Yes. Meteor Rejects is fully free and MIT licensed. The complete source code is on GitHub at github.com/AntiCope/meteor-rejects for anyone to review, fork, or contribute to. There are no premium tiers, paywalls, or ads.</p>
         </div>
       </div>
 
-      <div class="faq-item reveal delay-4" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <div class="faq-item reveal delay-4">
         <button class="faq-q" aria-expanded="false">
-          <span itemprop="name">What's the difference between Meteor Client and Meteor Rejects?</span>
+          <span>What's the difference between Meteor Client and Meteor Rejects?</span>
           <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
         </button>
-        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">Meteor Client is the base mod — it must be installed first. Meteor Rejects is an addon that extends it. Meteor Client focuses on well-curated features while Meteor Rejects specifically collects everything that was removed, rejected, or never officially included. They are fully compatible and work together seamlessly.</p>
+        <div class="faq-body">
+          <p>Meteor Client is the base mod — it must be installed first. Meteor Rejects is an addon that extends it. Meteor Client focuses on well-curated features while Meteor Rejects specifically collects everything that was removed, rejected, or never officially included. They are fully compatible and work together seamlessly.</p>
         </div>
       </div>
 
-      <div class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <div class="faq-item reveal">
         <button class="faq-q" aria-expanded="false">
-          <span itemprop="name">Does it conflict with other Meteor addons?</span>
+          <span>Does it conflict with other Meteor addons?</span>
           <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
         </button>
-        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">Meteor Rejects includes a built-in Duplicate Module Names option to prevent naming conflicts with other addons. In general it is compatible with most Meteor addons — just ensure all addons target the same Minecraft and Meteor Client version.</p>
+        <div class="faq-body">
+          <p>Meteor Rejects includes a built-in Duplicate Module Names option to prevent naming conflicts with other addons. In general it is compatible with most Meteor addons — just ensure all addons target the same Minecraft and Meteor Client version.</p>
         </div>
       </div>
 
-      <div class="faq-item reveal delay-1" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <div class="faq-item reveal delay-1">
         <button class="faq-q" aria-expanded="false">
-          <span itemprop="name">What Fabric Loader version do I need?</span>
+          <span>What Fabric Loader version do I need?</span>
           <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
         </button>
-        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">Fabric Loader 0.15 or newer is required. Download the latest version from fabricmc.net. If Meteor Client is already working on your setup, your Fabric Loader version is almost certainly compatible.</p>
+        <div class="faq-body">
+          <p>Fabric Loader 0.15 or newer is required. Download the latest version from fabricmc.net. If Meteor Client is already working on your setup, your Fabric Loader version is almost certainly compatible.</p>
         </div>
       </div>
 
-      <div class="faq-item reveal delay-2" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <div class="faq-item reveal delay-2">
         <button class="faq-q" aria-expanded="false">
-          <span itemprop="name">How do I report bugs or request features?</span>
+          <span>How do I report bugs or request features?</span>
           <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
         </button>
-        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">Open an issue on GitHub at github.com/AntiCope/meteor-rejects/issues. Include your Minecraft version, Meteor Client version, and steps to reproduce when filing a bug report. Feature requests are also welcome via the Issues tab.</p>
+        <div class="faq-body">
+          <p>Open an issue on GitHub at github.com/AntiCope/meteor-rejects/issues. Include your Minecraft version, Meteor Client version, and steps to reproduce when filing a bug report. Feature requests are also welcome via the Issues tab.</p>
         </div>
       </div>
 
-      <div class="faq-item reveal delay-3" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+      <div class="faq-item reveal delay-3">
         <button class="faq-q" aria-expanded="false">
-          <span itemprop="name">Can I contribute to Meteor Rejects?</span>
+          <span>Can I contribute to Meteor Rejects?</span>
           <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
         </button>
-        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">Absolutely. Fork the repo on GitHub, make your changes, and open a pull request. The project welcomes ports from other clients, restorations of removed Meteor features, and bug fixes for existing modules. See the contributing guide in the repository for details.</p>
+        <div class="faq-body">
+          <p>Absolutely. Fork the repo on GitHub, make your changes, and open a pull request. The project welcomes ports from other clients, restorations of removed Meteor features, and bug fixes for existing modules. See the contributing guide in the repository for details.</p>
         </div>
       </div>
 
